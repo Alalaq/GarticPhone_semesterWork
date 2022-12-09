@@ -36,6 +36,6 @@ stuff
 ***Telegram: @KhabiBully***
 ***
 **Lovchitsky Mikhail<br/>***
-***...<br/>***
+***misha_aid@mail.ru<br/>***
 ***Telegram: @Dobriynoch***
 ***
