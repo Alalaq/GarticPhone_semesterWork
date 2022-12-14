@@ -5,7 +5,7 @@
 
 <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0"
             prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.2" xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="com.example.client.controllers.LobbyController">
+            fx:controller="ru.kpfu.itis.gui.controllers.LobbyController">
     <left>
         <AnchorPane prefHeight="200.0" prefWidth="200.0" style="-fx-border-color: black" BorderPane.alignment="CENTER">
             <Button fx:id="startGameButton" onAction="#startGame" visible="false" mnemonicParsing="false" text="Button" AnchorPane.topAnchor="4" AnchorPane.rightAnchor="4"/>

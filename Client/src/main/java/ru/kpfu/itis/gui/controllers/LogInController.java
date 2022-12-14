@@ -1,6 +1,6 @@
-package com.example.client.controllers;
+package ru.kpfu.itis.gui.controllers;
 
-import com.example.client.ClientApp;
+import ru.kpfu.itis.ClientApp;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;

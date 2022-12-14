@@ -14,7 +14,7 @@
       prefWidth="600.0"
       xmlns="http://javafx.com/javafx/11.0.2"
       xmlns:fx="http://javafx.com/fxml/1"
-      fx:controller="com.example.client.controllers.LogInController">
+      fx:controller="ru.kpfu.itis.gui.controllers.LogInController">
     <Label text="Write your nickname:">
         <VBox.margin>
             <Insets bottom="16.0"/>

@@ -1,6 +1,6 @@
-package com.example.client;
+package ru.kpfu.itis;
 
-import com.example.client.controllers.LogInController;
+import ru.kpfu.itis.gui.controllers.LogInController;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;

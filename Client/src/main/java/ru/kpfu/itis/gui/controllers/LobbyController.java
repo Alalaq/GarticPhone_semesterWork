@@ -1,4 +1,4 @@
-package com.example.client.controllers;
+package ru.kpfu.itis.gui.controllers;
 
 import javafx.event.ActionEvent;
 import javafx.scene.control.Button;

@@ -1,10 +1,11 @@
-module com.example.client {
+module ru.kpfu.itis.client {
     requires javafx.controls;
     requires javafx.fxml;
+    requires ru.kpfu.itis.protocol;
 
+    exports ru.kpfu.itis;
+    exports ru.kpfu.itis.gui.controllers;
 
-    opens com.example.client to javafx.fxml;
-    exports com.example.client;
-    exports com.example.client.controllers;
-    opens com.example.client.controllers to javafx.fxml;
+    opens ru.kpfu.itis to javafx.fxml;
+    opens ru.kpfu.itis.gui.controllers to javafx.fxml;
 }
