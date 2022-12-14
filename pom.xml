@@ -6,4 +6,10 @@
     <artifactId>GarticPhone_semesterWork</artifactId>
     <version>0.1</version>
     <packaging>pom</packaging>
+
+    <modules>
+        <module>Client</module>
+        <module>Protocol</module>
+        <module>Server</module>
+    </modules>
 </project>
