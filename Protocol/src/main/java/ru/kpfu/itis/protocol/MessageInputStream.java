@@ -1,16 +1,24 @@
 package ru.kpfu.itis.protocol;
 
+import ru.kpfu.itis.exceptions.IllegalMessageTypeException;
 import ru.kpfu.itis.exceptions.IllegalProtocolVersionException;
 
 import java.io.IOException;
 import java.io.InputStream;
+
+import static ru.kpfu.itis.general.helpers.TypesHelper.ifThereSuchBytes;
 
 //InputStream for reading messages and throwing exceptions if there's some error in type of message/ver of protocol etc.
 
 public class MessageInputStream extends InputStream {
     private final InputStream inputStream;
 
+    public byte firstByte;
+    public byte secondByte;
+
     public MessageInputStream(InputStream inputStream) {
+        this.firstByte = (byte) Math.floor(Constants.VERSION);
+        this.secondByte = (byte) (Constants.VERSION * 10 % 10);
         this.inputStream = inputStream;
     }
 
@@ -18,10 +26,37 @@ public class MessageInputStream extends InputStream {
     // to check the correctness of the message
     // third byte is a type
     // 4, 5 - body length
-    //TODO: implement method
-//    public Message readMessage() {
-//
-//    }
+
+    public Message readMessage() throws IOException, IllegalMessageTypeException {
+        int firstByte = inputStream.read();
+
+        if (firstByte == -1) {
+            return null;
+        }
+
+        byte firstInputByte = (byte) firstByte;
+        byte secondInputByte = (byte) inputStream.read();
+
+        if ((firstInputByte != firstByte) || (secondInputByte != secondByte)) {
+            throw new IllegalProtocolVersionException("Error in version of protocol");
+        }
+
+        byte type = (byte) inputStream.read();
+
+        if (!ifThereSuchBytes(type)) {
+            throw new IllegalMessageTypeException("Error in type of message");
+        }
+
+        int length = inputStream.read() << 8 | inputStream.read();
+
+        byte[] data = new byte[length];
+
+        for (int i = 0; i < length; i++) {
+            data[i] = (byte) inputStream.read();
+        }
+
+        return new Message(type, data);
+    }
 
     @Override
     public int read(byte[] b) throws IOException {
@@ -50,8 +85,8 @@ public class MessageInputStream extends InputStream {
     }
 
     @Override
-    public void mark(int readlimit) {
-        inputStream.mark(readlimit);
+    public void mark(int readLimit) {
+        inputStream.mark(readLimit);
     }
 
     @Override

@@ -15,12 +15,27 @@ public class MessageOutputStream extends OutputStream {
         this.outputStream = outputStream;
     }
 
-    //TODO: implement method
     //First and second bytes represent the version of protocol
     //Third for message type
     //4 and 5 for file's body length
-//    public void writeMessage(Message message) throws IOException {
-//    }
+
+    public void writeMessage(Message message) throws IOException {
+        outputStream.write(firstByte);
+        outputStream.write(secondByte);
+
+        byte messageType = message.getType();
+        byte[] messageBody = message.getBody();
+
+        outputStream.write(messageType);
+
+        int length = messageBody.length;
+        outputStream.write((byte) (length >> 8));
+        outputStream.write((byte) length);
+
+        for (byte b : messageBody) {
+            outputStream.write(b);
+        }
+    }
 
     @Override
     public void write(int b) throws IOException {
