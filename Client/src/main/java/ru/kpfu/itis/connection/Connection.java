@@ -19,14 +19,20 @@ public class Connection {
             this.inputStream = new MessageInputStream(socket.getInputStream());
             this.outputStream = new MessageOutputStream(socket.getOutputStream());
         } catch (IOException e) {
-            e.printStackTrace();
+            e.printStackTrace(); //TODO
         }
     }
 
     public void sendMessage(Message message){
-        //TODO жду writeMessage в стримах
+        try {
+            outputStream.writeMessage(message);
+        } catch (IOException e) {
+            throw new IllegalArgumentException("cant send message"); //TODO
+        }
     }
-
+    public Socket getSocket(){
+        return socket;
+    }
     public void close(){
         try {
             socket.close();
@@ -35,4 +41,7 @@ public class Connection {
         }
     }
 
+    public MessageInputStream getInputStream() {
+        return inputStream;
+    }
 }
