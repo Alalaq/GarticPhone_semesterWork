@@ -9,7 +9,6 @@ import lombok.RequiredArgsConstructor;
 @Data
 @RequiredArgsConstructor
 @AllArgsConstructor
-@NoArgsConstructor
 public class Message {
     private byte type;
     private byte[] body;
