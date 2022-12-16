@@ -2,6 +2,7 @@ package ru.kpfu.itis.protocol;
 
 import java.io.IOException;
 import java.io.OutputStream;
+import ru.kpfu.itis.general.entities.*;
 
 
 //OutputStream for sending messages
