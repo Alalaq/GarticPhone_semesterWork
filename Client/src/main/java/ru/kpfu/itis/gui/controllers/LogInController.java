@@ -29,11 +29,11 @@ public class LogInController {
 
 
     public void logIn(ActionEvent actionEvent) throws IOException {
-        String userName =nickname.getText();
+        String userName = nickname.getText();
 
-        if (!userName.isEmpty() ){
-            connection.sendMessage(new Message(Constants.ALLOW_JOIN,userName.getBytes(StandardCharsets.UTF_8)));
-        }else{
+        if (!userName.isEmpty()) {
+            connection.sendMessage(new Message((byte) 1, userName.getBytes(StandardCharsets.UTF_8)));
+        } else {
             errorLabel.setText("Name shouldn't be empty");
             errorLabel.setVisible(true);
         }
@@ -50,7 +50,7 @@ public class LogInController {
 
     public void setConnection(Connection connection) {
         this.connection = connection;
-        new LogInMessageListenerService(connection,stage).start();
+        new LogInMessageListenerService(connection, stage).start();
     }
 
 }

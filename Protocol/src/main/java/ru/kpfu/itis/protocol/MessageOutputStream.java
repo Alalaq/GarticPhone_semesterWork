@@ -9,10 +9,12 @@ import ru.kpfu.itis.general.entities.*;
 
 public class MessageOutputStream extends OutputStream {
     private final OutputStream outputStream;
-    public byte firstByte;
-    public byte secondByte;
+    public final byte firstByte;
+    public final byte secondByte;
 
     public MessageOutputStream(OutputStream outputStream) {
+        this.firstByte = (byte) Math.floor(Constants.VERSION);
+        this.secondByte = (byte) (Constants.VERSION * 10 % 10);
         this.outputStream = outputStream;
     }
 
