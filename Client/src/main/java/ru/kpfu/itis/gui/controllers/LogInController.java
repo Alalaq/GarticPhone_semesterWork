@@ -2,7 +2,6 @@ package ru.kpfu.itis.gui.controllers;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
@@ -32,16 +31,11 @@ public class LogInController {
         String userName = nickname.getText();
 
         if (!userName.isEmpty()) {
-            connection.sendMessage(new Message((byte) 1, userName.getBytes(StandardCharsets.UTF_8)));
+            connection.sendMessage(new Message(Constants.JOIN_ROOM, userName.getBytes(StandardCharsets.UTF_8)));
         } else {
             errorLabel.setText("Name shouldn't be empty");
             errorLabel.setVisible(true);
         }
-    }
-
-    private void changeScene() throws IOException {
-        stage.setScene(ScenesManager.getLobbyScene());
-        stage.show();
     }
 
     public void setStage(Stage stage) {
@@ -50,7 +44,7 @@ public class LogInController {
 
     public void setConnection(Connection connection) {
         this.connection = connection;
-        new LogInMessageListenerService(connection, stage).start();
+        new LogInMessageListenerService(connection, stage,errorLabel).start();
     }
 
 }

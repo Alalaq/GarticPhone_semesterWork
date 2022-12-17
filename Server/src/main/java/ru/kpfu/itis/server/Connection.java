@@ -33,26 +33,27 @@ public class Connection implements Runnable{
     public void run() {
         Message message;
 
-        try {
-            try {
-                while ((message = inputStream.readMessage()) != null) {
-                    ServerEventListener listener = AbstractServerEventListener.getEventListener(
-                            message.getType());
-                    listener.init(server);
-
-                    if (player != null || message.getType() == Constants.ENTRANCE) {
-                        listener.handle(this, message);
-                    }
-                }
-            } catch (IllegalProtocolVersionException e) {
-                message = new Message(Constants.ERROR, e.getMessage().getBytes());
-                outputStream.writeMessage(message);
-            } catch (IllegalMessageTypeException e) {
-                message = new Message(Constants.ERROR, e.getMessage().getBytes());
-                outputStream.writeMessage(message);
-            }
-        }catch (IOException e){
-            server.removeConnection(this);
-        }
+//        try {
+//            try {
+//                while ((message = inputStream.readMessage()) != null) {
+//                    ServerEventListener listener = AbstractServerEventListener.getEventListener(
+//                            message.getType());
+//                    listener.init(server);
+//
+//                    if (player != null || message.getType() == Constants.ENTRANCE) {
+//                        listener.handle(this, message);
+//                    }
+//                }
+//            } catch (IllegalProtocolVersionException e) {
+//                message = new Message(Constants.ERROR, e.getMessage().getBytes());
+//                outputStream.writeMessage(message);
+//            } catch (IllegalMessageTypeException e) {
+//                message = new Message(Constants.ERROR, e.getMessage().getBytes());
+//                outputStream.writeMessage(message);
+//            }
+//        }catch (IOException e){
+//            server.removeConnection(this);
+//        }
+//    }
     }
 }

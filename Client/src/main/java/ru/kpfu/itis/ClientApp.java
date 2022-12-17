@@ -7,6 +7,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import ru.kpfu.itis.gui.helpers.ScenesManager;
 
 import java.io.IOException;
 import java.net.InetAddress;
@@ -16,14 +17,10 @@ import java.net.UnknownHostException;
 public class ClientApp extends Application {
     @Override
     public void start(Stage stage) throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(this.getClass().getResource("login.fxml"));
-        Parent root = fxmlLoader.load();
-        Scene scene = new Scene(root, 500, 600);
-        stage.setScene(scene);
+        stage.setScene(ScenesManager.getLogInScene(initConnection(),stage));
 
-        LogInController controller = fxmlLoader.getController();
-        controller.setStage(stage);
-        controller.setConnection(initConnection());
+        stage.setWidth(500);
+        stage.setHeight(500);
         stage.setTitle("Hello!");
         stage.show();
 
