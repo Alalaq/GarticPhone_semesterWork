@@ -2,14 +2,12 @@ package org.example;
 
 import ru.kpfu.itis.protocol.Constants;
 import ru.kpfu.itis.protocol.Message;
-import ru.kpfu.itis.protocol.MessageInputStream;
 import ru.kpfu.itis.protocol.MessageOutputStream;
 
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.nio.charset.StandardCharsets;
-import java.security.MessageDigest;
 
 public class Main {
     public static void main(String[] args) throws Exception{
