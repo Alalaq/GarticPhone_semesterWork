@@ -2,6 +2,7 @@ package ru.kpfu.itis.listeners;
 
 import ru.kpfu.itis.general.entities.Player;
 import ru.kpfu.itis.general.entities.Room;
+import ru.kpfu.itis.general.helpers.parsers.PlayerParser;
 import ru.kpfu.itis.listeners.general.AbstractServerEventListener;
 import ru.kpfu.itis.protocol.Constants;
 import ru.kpfu.itis.protocol.Message;
@@ -9,10 +10,10 @@ import ru.kpfu.itis.server.Connection;
 import ru.kpfu.itis.server.Server;
 
 public class JoinRoomListener extends AbstractServerEventListener {
+    PlayerParser playerParser;
     public JoinRoomListener(){
         super(Constants.JOIN_ROOM);
-        //todo: parser
-        //playerParser = new PlayerParser();
+        playerParser = new PlayerParser();
     }
 
     @Override
@@ -40,9 +41,9 @@ public class JoinRoomListener extends AbstractServerEventListener {
             joinedRoom.addPlayer(player);
             player.setRoom(joinedRoom);
         }
-        //todo: parser
+
         Message toClient = new Message(Constants.JOIN_ROOM);
-                //playerParser.serializeObject(joinedRoom.getPlayers()));
+                playerParser.serializeObject(joinedRoom.getPlayers());
 
         Server.sendMulticastMessage(joinedRoom, toClient);
     }

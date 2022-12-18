@@ -1,19 +1,12 @@
 package ru.kpfu.itis.test;
 
-import ru.kpfu.itis.general.helpers.TypesHelper;
 import ru.kpfu.itis.protocol.Message;
 import ru.kpfu.itis.protocol.MessageInputStream;
 import ru.kpfu.itis.protocol.MessageOutputStream;
 
-import java.io.BufferedOutputStream;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.net.ServerSocket;
-import java.net.Socket;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 
 public class Main {
     public static void main(String[] args) {

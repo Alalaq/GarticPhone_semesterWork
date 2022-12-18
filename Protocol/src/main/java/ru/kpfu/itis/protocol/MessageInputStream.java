@@ -6,7 +6,7 @@ import ru.kpfu.itis.exceptions.IllegalProtocolVersionException;
 import java.io.IOException;
 import java.io.InputStream;
 
-import static ru.kpfu.itis.general.helpers.TypesHelper.ifThereSuchBytes;
+import static ru.kpfu.itis.general.helpers.general.TypesHelper.ifThereSuchBytes;
 
 //InputStream for reading messages and throwing exceptions if there's some error in type of message/ver of protocol etc.
 

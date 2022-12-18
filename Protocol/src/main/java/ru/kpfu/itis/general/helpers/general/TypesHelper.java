@@ -1,4 +1,4 @@
-package ru.kpfu.itis.general.helpers;
+package ru.kpfu.itis.general.helpers.general;
 
 import lombok.Setter;
 import ru.kpfu.itis.protocol.Constants;

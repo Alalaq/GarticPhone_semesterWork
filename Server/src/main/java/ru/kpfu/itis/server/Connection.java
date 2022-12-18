@@ -55,7 +55,7 @@ public class Connection implements Runnable {
                 outputStream.writeMessage(message);
             }
         } catch (IOException e) {
-            server.removeConnection(this);
+            Server.removeConnection(this);
         }
     }
 }

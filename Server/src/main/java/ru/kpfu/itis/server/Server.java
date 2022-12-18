@@ -4,7 +4,9 @@ import lombok.Data;
 import ru.kpfu.itis.exceptions.ServerAlreadyStartException;
 import ru.kpfu.itis.general.entities.Player;
 import ru.kpfu.itis.general.entities.Room;
+import ru.kpfu.itis.general.helpers.parsers.PlayerParser;
 import ru.kpfu.itis.listeners.general.ServerEventListener;
+import ru.kpfu.itis.protocol.Constants;
 import ru.kpfu.itis.protocol.Message;
 
 import java.io.IOException;
@@ -134,19 +136,19 @@ public class Server {
 
 
     //todo playerSerializer / deserializer
-//    protected static void handleRemovePlayer(Player player){
-//        PlayerParser parser = new PlayerParser();
-//
-//        if (player != null && player.inRoom()){
-//            Room room = player.getRoom();
-//            player.exitRoom();
-//
-//            Message message =  new Message(Constants.EXIT_ROOM,
-//                    parser.serializeObject(room.getPlayers()));
-//
-//            sendMulticastMessage(room, message);
-//        }
-//    }
+    protected static void handleRemovePlayer(Player player){
+        PlayerParser parser = new PlayerParser();
+
+        if (player != null && player.inRoom()){
+            Room room = player.getRoom();
+            player.exitRoom();
+
+            Message message =  new Message(Constants.EXIT_ROOM,
+                    parser.serializeObject(room.getPlayers()));
+
+            sendMulticastMessage(room, message);
+        }
+    }
 
     public static List<Room> getAllRooms() {
         return rooms;
