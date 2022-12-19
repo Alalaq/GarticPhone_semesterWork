@@ -1,5 +1,6 @@
 package ru.kpfu.itis.listeners.general;
 
+import ru.kpfu.itis.listeners.ExitRoomListener;
 import ru.kpfu.itis.listeners.JoinRoomListener;
 import ru.kpfu.itis.protocol.Message;
 import ru.kpfu.itis.server.Connection;
@@ -26,8 +27,8 @@ public abstract class AbstractServerEventListener implements ServerEventListener
         switch (type) {
             case JOIN_ROOM:
                 return new JoinRoomListener();
-           // case EXIT_ROOM:
-            //    return new ExitRoomListener();
+            case EXIT_ROOM:
+                return new ExitRoomListener();
            // case START_GAME:
             //    return new ReadyResponseListener();
            // case GAME_STARTED:

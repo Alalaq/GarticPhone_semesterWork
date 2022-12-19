@@ -29,12 +29,21 @@ public class JoinRoomListener extends AbstractServerEventListener {
             joinedRoom = Server.createRoom();
             joinedRoom.addPlayer(player);
             player.setRoom(joinedRoom);
+            if (joinedRoom.getPlayers().size() == 1){
+                player.setIsAdmin(true);
+            }
+            else {
+                player.setIsAdmin(false);
+            }
+            player.setReadiness(false);
         }
 
-        Message allowJoin = new Message(Constants.ALLOW_JOIN);
+        Message allowJoin = new Message(Constants.ALLOW_JOIN, PlayerParser.serializeObject(player));
         Message usersChanged = new Message(Constants.USERS_CHANGED, joinedRoom.getPlayersNicknames().toString().getBytes(StandardCharsets.UTF_8));
+        Message giveAdminRights = new Message(Constants.GIVE_ADMIN_PERMISSION);
 
         Server.sendMulticastMessage(joinedRoom, allowJoin);
         Server.sendMulticastMessage(joinedRoom, usersChanged);
+        Server.sendMulticastMessage(joinedRoom, giveAdminRights);
     }
 }

@@ -8,6 +8,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import ru.kpfu.itis.gui.helpers.ScenesManager;
+import ru.kpfu.itis.protocol.Constants;
 
 import java.io.IOException;
 import java.net.InetAddress;
@@ -32,7 +33,7 @@ public class ClientApp extends Application {
 
     public Connection initConnection() {
         try {
-            return new Connection(InetAddress.getLocalHost(),8102);
+            return new Connection(InetAddress.getLocalHost(), Constants.PORT);
         } catch (UnknownHostException e) {
             throw new IllegalArgumentException();
         }
