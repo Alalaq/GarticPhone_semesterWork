@@ -64,4 +64,12 @@ public class Room {
     public List<Player> getPlayers() {
         return players;
     }
+
+    public List<String> getPlayersNicknames(){
+        List<String> stringPlayers= new ArrayList<>();
+        for (Player player : players){
+            stringPlayers.add(player.nickname);
+        }
+        return stringPlayers;
+    }
 }

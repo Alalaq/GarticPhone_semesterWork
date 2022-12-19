@@ -9,31 +9,28 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class PlayerParser {
-    private final TextParser textParser;
-    private final Gson gson;
+    private static final Gson gson = new Gson();
 
     public PlayerParser(){
-        textParser = new TextParser();
-        gson = new Gson();
     }
 
-    public byte[] serializeObject(Player player) {
-        return textParser.serializeMessage(gson.toJson(player));
+    public static byte[] serializeObject(Player player) {
+        return TextParser.serializeMessage(gson.toJson(player));
     }
 
-    public byte[] serializeObject(List<Player> players) {
-        return textParser.serializeMessage(gson.toJson(players));
+    public static byte[] serializeObject(List<Player> players) {
+        return TextParser.serializeMessage(gson.toJson(players));
     }
 
-    public Player deserializeObject(byte[] player) {
-        String text = textParser.deserializeMessage(player);
+    public static Player deserializeObject(byte[] player) {
+        String text = TextParser.deserializeMessage(player);
 
         return gson.fromJson(text, Player.class);
     }
 
-    public List<Player> deserializeObjects(byte[] players) {
+    public static List<Player> deserializeObjects(byte[] players) {
         List<Player> resultPlayers = new ArrayList<>();
-        String text = textParser.deserializeMessage(players);
+        String text = TextParser.deserializeMessage(players);
 
         JsonArray array = gson.fromJson(text, JsonArray.class);
 

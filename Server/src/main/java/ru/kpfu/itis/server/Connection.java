@@ -4,6 +4,7 @@ import lombok.Data;
 import ru.kpfu.itis.exceptions.IllegalMessageTypeException;
 import ru.kpfu.itis.exceptions.IllegalProtocolVersionException;
 import ru.kpfu.itis.general.entities.Player;
+import ru.kpfu.itis.general.helpers.parsers.TextParser;
 import ru.kpfu.itis.listeners.general.AbstractServerEventListener;
 import ru.kpfu.itis.listeners.general.ServerEventListener;
 import ru.kpfu.itis.protocol.Constants;
@@ -46,7 +47,11 @@ public class Connection implements Runnable {
                             message.getType());
                     listener.init(server);
 
-                    if (player != null || message.getType() == Constants.JOIN_ROOM) {
+                    if (player != null && message.getType() == Constants.JOIN_ROOM) {
+                        listener.handle(this, message);
+                    }
+                    else if (player == null && message.getType() == Constants.JOIN_ROOM){
+                        setPlayer(Player.builder().nickname(TextParser.deserializeMessage(message.getBody()).substring(1)).build());
                         listener.handle(this, message);
                     }
                 }

@@ -9,6 +9,8 @@ import ru.kpfu.itis.protocol.Message;
 import ru.kpfu.itis.server.Connection;
 import ru.kpfu.itis.server.Server;
 
+import java.nio.charset.StandardCharsets;
+
 public class JoinRoomListener extends AbstractServerEventListener {
     PlayerParser playerParser;
     public JoinRoomListener(){
@@ -22,19 +24,6 @@ public class JoinRoomListener extends AbstractServerEventListener {
         Room joinedRoom = null;
         Player player = connection.getPlayer();
 
-        for (Room room: Server.getAllRooms()){
-            if (!joined && (room.getNumberOfPlayers() < Room.MAX_PLAYERS)){
-                room.addPlayer(player);
-                player.setRoom(room);
-
-                if (room.getNumberOfPlayers() == Room.MAX_PLAYERS){
-                    Server.sendMulticastMessage(room, new Message(Constants.REDINESS));
-                }
-
-                joined = true;
-                joinedRoom = room;
-            }
-        }
 
         if (!joined){
             joinedRoom = Server.createRoom();
@@ -42,9 +31,10 @@ public class JoinRoomListener extends AbstractServerEventListener {
             player.setRoom(joinedRoom);
         }
 
-        Message toClient = new Message(Constants.JOIN_ROOM);
-                playerParser.serializeObject(joinedRoom.getPlayers());
+        Message allowJoin = new Message(Constants.ALLOW_JOIN);
+        Message usersChanged = new Message(Constants.USERS_CHANGED, joinedRoom.getPlayersNicknames().toString().getBytes(StandardCharsets.UTF_8));
 
-        Server.sendMulticastMessage(joinedRoom, toClient);
+        Server.sendMulticastMessage(joinedRoom, allowJoin);
+        Server.sendMulticastMessage(joinedRoom, usersChanged);
     }
 }

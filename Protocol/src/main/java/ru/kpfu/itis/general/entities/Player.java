@@ -18,8 +18,6 @@ public class Player{
     protected Boolean readiness; //whether this player ready or not (before game started)
     protected Boolean isAdmin;
     protected Drawing image; //the image that came to the player (or that player has drawn???)
-
-    protected Integer money;
     protected transient Room room;
 
     //todo: handle case with null room

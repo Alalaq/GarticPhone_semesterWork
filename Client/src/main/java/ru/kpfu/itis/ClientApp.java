@@ -32,7 +32,7 @@ public class ClientApp extends Application {
 
     public Connection initConnection() {
         try {
-            return new Connection(InetAddress.getLocalHost(),8070);
+            return new Connection(InetAddress.getLocalHost(),8102);
         } catch (UnknownHostException e) {
             throw new IllegalArgumentException();
         }

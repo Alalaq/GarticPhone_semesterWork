@@ -11,6 +11,10 @@ import java.nio.charset.StandardCharsets;
 
 public class Main {
     public static void main(String[] args) throws Exception{
+//        String userName = "huinya";
+//        Connection connection = new Connection();
+//     int
+
         try {
             // ну типо сервер работает, надо чтобы где-то вайл тру был чтобы сервер не падал понял
             ServerSocket server = new ServerSocket(8070);

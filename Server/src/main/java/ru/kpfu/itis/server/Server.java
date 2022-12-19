@@ -27,8 +27,6 @@ public class Server {
     protected ServerSocket server;
     protected static List<Connection> connections;
 
-    protected static List<Room> rooms;
-
     public Server(int port) {
         this.port = port;
         started = false;
@@ -37,8 +35,6 @@ public class Server {
     }
 
     public void start() throws ServerException {
-        rooms = new ArrayList<>();
-
         try {
             server = new ServerSocket(this.port);
             started = true;
@@ -55,7 +51,8 @@ public class Server {
     protected void handleConnection(Socket socket) throws ServerException {
         try {
             Connection connection = new Connection(this, socket);
-            this.connections.add(connection);
+
+            connections.add(connection);
 
             new Thread(connection).start();
         } catch (IOException ex) {
@@ -126,8 +123,7 @@ public class Server {
             Connection conn = iterator.next();
 
             if (connection.getId() == conn.getId()) {
-                //todo playerSerializer / deserializer
-                //handleRemovePlayer(connection.getPlayer());
+                handleRemovePlayer(connection.getPlayer());
 
                 iterator.remove();
             }
@@ -150,19 +146,12 @@ public class Server {
         }
     }
 
-    public static List<Room> getAllRooms() {
-        return rooms;
-    }
 
     public static Room createRoom() {
         Room room = new Room();
-        rooms.add(room);
 
         return room;
     }
 
-    public void removeRoom(Room room) {
-        rooms.remove(room);
-    }
 
 }
