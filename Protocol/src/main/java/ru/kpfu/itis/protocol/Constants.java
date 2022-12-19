@@ -20,4 +20,5 @@ public class Constants {
     public static final byte GIVE_ADMIN_PERMISSION = -4; // даёт админку
     public static final byte GAME_STARTED = -5;  // успешное начало игры
 
+
 }

@@ -12,29 +12,20 @@ import ru.kpfu.itis.server.Server;
 import java.nio.charset.StandardCharsets;
 
 public class JoinRoomListener extends AbstractServerEventListener {
-    PlayerParser playerParser;
     public JoinRoomListener(){
         super(Constants.JOIN_ROOM);
-        playerParser = new PlayerParser();
     }
 
     @Override
     public void handle(Connection connection, Message message) {
-        boolean joined = false;
-        Room joinedRoom = null;
+        Room joinedRoom = Server.room;
         Player player = connection.getPlayer();
-
+        boolean joined = player.inRoom() && joinedRoom.getPlayers().contains(player);
 
         if (!joined){
-            joinedRoom = Server.createRoom();
             joinedRoom.addPlayer(player);
             player.setRoom(joinedRoom);
-            if (joinedRoom.getPlayers().size() == 1){
-                player.setIsAdmin(true);
-            }
-            else {
-                player.setIsAdmin(false);
-            }
+            player.setIsAdmin(joinedRoom.getPlayers().size() == 1);
             player.setReadiness(false);
         }
 
@@ -44,6 +35,6 @@ public class JoinRoomListener extends AbstractServerEventListener {
 
         Server.sendMulticastMessage(joinedRoom, allowJoin);
         Server.sendMulticastMessage(joinedRoom, usersChanged);
-        Server.sendMulticastMessage(joinedRoom, giveAdminRights);
+        Server.sendMessage(connection, giveAdminRights);
     }
 }

@@ -27,11 +27,14 @@ public class Server {
     protected ServerSocket server;
     protected static List<Connection> connections;
 
+    public static Room room;
+
     public Server(int port) {
         this.port = port;
         started = false;
         listeners = new ArrayList<>();
         connections = new ArrayList<>();
+        room = null;
     }
 
     public void start() throws ServerException {
@@ -51,8 +54,11 @@ public class Server {
     protected void handleConnection(Socket socket) throws ServerException {
         try {
             Connection connection = new Connection(this, socket);
-
             connections.add(connection);
+
+            if (connections.size() == 1){
+                room = createRoom();
+            }
 
             new Thread(connection).start();
         } catch (IOException ex) {
