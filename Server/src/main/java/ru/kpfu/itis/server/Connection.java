@@ -1,6 +1,8 @@
 package ru.kpfu.itis.server;
 
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 import ru.kpfu.itis.exceptions.IllegalMessageTypeException;
 import ru.kpfu.itis.exceptions.IllegalProtocolVersionException;
 import ru.kpfu.itis.general.entities.Player;
@@ -15,10 +17,11 @@ import ru.kpfu.itis.protocol.MessageOutputStream;
 import java.io.IOException;
 import java.net.Socket;
 
-@Data
+@Getter
+@Setter
 public class Connection implements Runnable {
     private static int count = 0;
-    protected int id;
+    protected long id;
 
     protected Server server;
     protected Socket socket;
@@ -47,11 +50,7 @@ public class Connection implements Runnable {
                             message.getType());
                     listener.init(server);
 
-                    if (player != null && message.getType() == Constants.JOIN_ROOM) {
-                        listener.handle(this, message);
-                    }
-                    else if (player == null && message.getType() == Constants.JOIN_ROOM){
-                        setPlayer(Player.builder().nickname(TextParser.deserializeMessage(message.getBody()).substring(1)).build());
+                    if (player != null || message.getType() == Constants.ENTRANCE) {
                         listener.handle(this, message);
                     }
                 }
@@ -62,5 +61,10 @@ public class Connection implements Runnable {
         } catch (IOException e) {
             this.server.removeConnection(this);
         }
+    }
+
+    @Override
+    public String toString() {
+        return super.toString();
     }
 }

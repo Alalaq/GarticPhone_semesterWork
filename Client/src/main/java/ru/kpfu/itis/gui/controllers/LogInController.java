@@ -32,7 +32,8 @@ public class LogInController {
         String userName = nickname.getText();
 
         if (!userName.isEmpty()) {
-            setConnection(new Connection(InetAddress.getLocalHost(),Constants.PORT));
+            setConnection(new Connection(InetAddress.getLocalHost(), Constants.PORT));
+            connection.sendMessage(new Message(Constants.ENTRANCE, userName.getBytes(StandardCharsets.UTF_16)));
             connection.sendMessage(new Message(Constants.JOIN_ROOM, userName.getBytes(StandardCharsets.UTF_16)));
         } else {
             errorLabel.setText("Name shouldn't be empty");

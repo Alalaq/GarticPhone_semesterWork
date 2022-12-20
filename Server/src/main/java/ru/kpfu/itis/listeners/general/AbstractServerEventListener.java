@@ -1,5 +1,6 @@
 package ru.kpfu.itis.listeners.general;
 
+import ru.kpfu.itis.listeners.EntranceListener;
 import ru.kpfu.itis.listeners.ExitRoomListener;
 import ru.kpfu.itis.listeners.JoinRoomListener;
 import ru.kpfu.itis.protocol.Message;
@@ -29,10 +30,8 @@ public abstract class AbstractServerEventListener implements ServerEventListener
                 return new JoinRoomListener();
             case EXIT_ROOM:
                 return new ExitRoomListener();
-           // case START_GAME:
-            //    return new ReadyResponseListener();
-           // case GAME_STARTED:
-           //     return new GameStartedListener();
+            case ENTRANCE:
+               return new EntranceListener();
             default:
                 throw new IllegalArgumentException("Illegal type of listener");
         }

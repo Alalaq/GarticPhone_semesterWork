@@ -54,14 +54,18 @@ public class Server {
     protected void handleConnection(Socket socket) throws ServerException {
         try {
             Connection connection = new Connection(this, socket);
-            connections.add(connection);
+            if (!connections.contains(connection)) {
+                connections.add(connection);
+            }
 
             if (connections.size() == 1) {
                 room = createRoom();
             }
 
-            new Thread(connection).start();
+            Thread thread = new Thread(connection);
+            thread.start();
         } catch (IOException ex) {
+
             throw new ServerException("Problem with handling connection.", ex);
         }
     }
