@@ -23,6 +23,7 @@ public class Connection {
         }
     }
 
+
     public void sendMessage(Message message){
         try {
             outputStream.writeMessage(message);

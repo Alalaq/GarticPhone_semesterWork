@@ -11,9 +11,9 @@ import ru.kpfu.itis.protocol.Constants;
 import ru.kpfu.itis.protocol.Message;
 import ru.kpfu.itis.protocol.MessageInputStream;
 
-import java.io.IOException;
 import java.net.Socket;
 import java.nio.charset.StandardCharsets;
+import java.util.Arrays;
 
 public class LobbyMessageListenerService extends Service<Void> {
 
@@ -45,9 +45,13 @@ public class LobbyMessageListenerService extends Service<Void> {
                     Message message = in.readMessage();
                     switch (message.getType()) {
                         case Constants.USERS_CHANGED -> {
-                            String[] users = new String(message.getBody(), StandardCharsets.UTF_8).split(",");
-                            userList.getItems().clear();
-                            userList.getItems().addAll(users);
+                            String[] users = new String(message.getBody(), StandardCharsets.UTF_8).replace("[","").replace("]","").split(",");
+                            Platform.runLater(()->{
+                                userList.getItems().clear();
+                                for (String user: users){
+                                    userList.getItems().add(user.trim());
+                                }
+                            });
                         }
                         case Constants.GIVE_ADMIN_PERMISSION -> Platform.runLater(() -> {
                             startGameButton.setVisible(true);
