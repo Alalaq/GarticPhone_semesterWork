@@ -1,5 +1,3 @@
-package org.example;
-
 import ru.kpfu.itis.server.Server;
 
 import java.rmi.ServerException;

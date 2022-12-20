@@ -1,5 +1,3 @@
-package org.example;
-
 import ru.kpfu.itis.protocol.Constants;
 import ru.kpfu.itis.protocol.Message;
 import ru.kpfu.itis.protocol.MessageOutputStream;
