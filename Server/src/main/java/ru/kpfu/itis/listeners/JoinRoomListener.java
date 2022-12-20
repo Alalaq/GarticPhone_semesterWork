@@ -12,7 +12,7 @@ import ru.kpfu.itis.server.Server;
 import java.nio.charset.StandardCharsets;
 
 public class JoinRoomListener extends AbstractServerEventListener {
-    public JoinRoomListener(){
+    public JoinRoomListener() {
         super(Constants.JOIN_ROOM);
     }
 
@@ -22,15 +22,13 @@ public class JoinRoomListener extends AbstractServerEventListener {
         Player player = connection.getPlayer();
         Server server = connection.getServer();
         boolean joined = player.inRoom() && joinedRoom.getPlayers().contains(player);
-        Message giveAdminRights = new Message(Constants.GIVE_ADMIN_PERMISSION);
 
-        if (!joined){
+        if (!joined) {
             joinedRoom.addPlayer(player);
             player.setRoom(joinedRoom);
-            if (joinedRoom.getPlayers().size() == 1){
-                player.setIsAdmin(true);
-                server.sendMessage(connection, giveAdminRights);
-            }
+
+            player.setIsAdmin(joinedRoom.getPlayers().size() == 1);
+
             player.setReadiness(false);
         }
 
