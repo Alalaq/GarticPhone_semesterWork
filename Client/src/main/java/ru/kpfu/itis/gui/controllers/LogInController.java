@@ -13,6 +13,7 @@ import ru.kpfu.itis.protocol.Constants;
 import ru.kpfu.itis.protocol.Message;
 
 import java.io.IOException;
+import java.net.InetAddress;
 import java.nio.charset.StandardCharsets;
 
 public class LogInController {
@@ -31,6 +32,7 @@ public class LogInController {
         String userName = nickname.getText();
 
         if (!userName.isEmpty()) {
+            setConnection(new Connection(InetAddress.getLocalHost(),Constants.PORT));
             connection.sendMessage(new Message(Constants.JOIN_ROOM, userName.getBytes(StandardCharsets.UTF_16)));
         } else {
             errorLabel.setText("Name shouldn't be empty");

@@ -9,6 +9,7 @@ import javafx.stage.Stage;
 import ru.kpfu.itis.connection.Connection;
 import ru.kpfu.itis.connection.LobbyMessageListenerService;
 import ru.kpfu.itis.general.entities.Player;
+import ru.kpfu.itis.general.helpers.parsers.PlayerParser;
 import ru.kpfu.itis.gui.helpers.ScenesManager;
 import ru.kpfu.itis.protocol.Constants;
 import ru.kpfu.itis.protocol.Message;
@@ -44,7 +45,7 @@ public class LobbyController {
         startGameButton.setVisible(player.getIsAdmin());
     }
     public void leaveRoom(ActionEvent actionEvent) {
-        connection.sendMessage(new Message(Constants.EXIT_ROOM)); //todo add user to message
+        connection.sendMessage(new Message(Constants.EXIT_ROOM, PlayerParser.serializeObject(player))); //todo add user to message
         stage.setScene(ScenesManager.getLogInScene(connection,stage));
     }
 }
