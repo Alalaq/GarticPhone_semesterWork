@@ -25,9 +25,9 @@ public class Server {
     protected List<ServerEventListener> listeners;
 
     protected ServerSocket server;
-    protected static List<Connection> connections;
+    protected List<Connection> connections;
 
-    public static Room room;
+    protected Room room;
 
     public Server(int port) {
         this.port = port;
@@ -56,7 +56,7 @@ public class Server {
             Connection connection = new Connection(this, socket);
             connections.add(connection);
 
-            if (connections.size() == 1){
+            if (connections.size() == 1) {
                 room = createRoom();
             }
 
@@ -88,7 +88,7 @@ public class Server {
     }
 
 
-    public static void sendMessage(Connection connection, Message message) {
+    public void sendMessage(Connection connection, Message message) {
         try {
             connection.getOutputStream().writeMessage(message);
         } catch (IOException e) {
@@ -96,7 +96,7 @@ public class Server {
         }
     }
 
-    public static void sendMulticastMessage(Room room, Message message) {
+    public void sendMulticastMessage(Room room, Message message) {
         List<Player> players = room.getPlayers();
 
         for (Connection connection : connections) {
@@ -122,7 +122,7 @@ public class Server {
     }
 
 
-    public static void removeConnection(Connection connection) {
+    public void removeConnection(Connection connection) {
         Iterator<Connection> iterator = connections.iterator();
 
         while (iterator.hasNext()) {
@@ -137,16 +137,13 @@ public class Server {
     }
 
 
-    //todo playerSerializer / deserializer
-    protected static void handleRemovePlayer(Player player){
-        PlayerParser parser = new PlayerParser();
-
-        if (player != null && player.inRoom()){
+    protected void handleRemovePlayer(Player player) {
+        if (player != null && player.inRoom()) {
             Room room = player.getRoom();
             player.exitRoom();
 
-            Message message =  new Message(Constants.EXIT_ROOM,
-                    parser.serializeObject(room.getPlayers()));
+            Message message = new Message(Constants.EXIT_ROOM,
+                    PlayerParser.serializeObject(room.getPlayers()));
 
             sendMulticastMessage(room, message);
         }
@@ -154,10 +151,6 @@ public class Server {
 
 
     public static Room createRoom() {
-        Room room = new Room();
-
-        return room;
+        return new Room();
     }
-
-
 }

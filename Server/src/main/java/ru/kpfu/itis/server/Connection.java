@@ -60,7 +60,7 @@ public class Connection implements Runnable {
                 outputStream.writeMessage(message);
             }
         } catch (IOException e) {
-            Server.removeConnection(this);
+            this.server.removeConnection(this);
         }
     }
 }

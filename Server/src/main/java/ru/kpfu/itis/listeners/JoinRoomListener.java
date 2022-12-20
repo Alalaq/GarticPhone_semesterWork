@@ -18,8 +18,9 @@ public class JoinRoomListener extends AbstractServerEventListener {
 
     @Override
     public void handle(Connection connection, Message message) {
-        Room joinedRoom = Server.room;
+        Room joinedRoom = connection.getServer().getRoom();
         Player player = connection.getPlayer();
+        Server server = connection.getServer();
         boolean joined = player.inRoom() && joinedRoom.getPlayers().contains(player);
 
         if (!joined){
@@ -33,8 +34,8 @@ public class JoinRoomListener extends AbstractServerEventListener {
         Message usersChanged = new Message(Constants.USERS_CHANGED, joinedRoom.getPlayersNicknames().toString().getBytes(StandardCharsets.UTF_8));
         Message giveAdminRights = new Message(Constants.GIVE_ADMIN_PERMISSION);
 
-        Server.sendMulticastMessage(joinedRoom, allowJoin);
-        Server.sendMulticastMessage(joinedRoom, usersChanged);
-        Server.sendMessage(connection, giveAdminRights);
+        server.sendMulticastMessage(joinedRoom, allowJoin);
+        server.sendMulticastMessage(joinedRoom, usersChanged);
+        server.sendMessage(connection, giveAdminRights);
     }
 }
