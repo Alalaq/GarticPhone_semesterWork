@@ -28,9 +28,12 @@ public class ExitRoomListener extends AbstractServerEventListener {
                 playerRoom.getPlayersNicknames().toString().getBytes(StandardCharsets.UTF_8));
 
         server.removeConnection(connection);
-        Connection newAdminConnection = server.getAllConnections().get(0);
+        if (player.getIsAdmin()) {
+            Connection newAdminConnection = server.getAllConnections().get(0);
 
-        server.sendMulticastMessage(playerRoom, successfulExit);
-        server.sendMessage(newAdminConnection, new Message(Constants.GIVE_ADMIN_PERMISSION));
+            server.sendMulticastMessage(playerRoom, successfulExit);
+            server.sendMessage(newAdminConnection, new Message(Constants.GIVE_ADMIN_PERMISSION));
+            System.out.println(newAdminConnection.getPlayer().getIsAdmin());
+        }
     }
 }

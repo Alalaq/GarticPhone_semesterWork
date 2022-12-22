@@ -5,6 +5,8 @@ public class Constants {
     public static final int PORT = 8080;
     public static final int MAXIMUM_PLAYERS = 8;
 
+    public static final int MIN_PLAYERS = 3;
+
     //удалил всё что пока не надо, даём серверным ответам негативные значения, запросам позитивные :)
 
     //CLIENT
@@ -15,7 +17,6 @@ public class Constants {
     public static final byte REDINESS = 4; // уже после начала игры, месседж о том что юзер готов, если он был готов до этого, то статус меняется, передаётся картинка
 
     //SERVER
-    public static final byte ERROR = 0; // вот это юзается где-то?
     public static final byte ALLOW_JOIN = -1; // позволяет войти если игроков вместе с новым юзером будет 8 или меньше, вместе идет экземпляр вошедшего Playera
     public static final byte DENY_JOIN = -2; // конект отвергается, вместе подаётся стринга с причиной
     public static final byte USERS_CHANGED = -3; // кидает новый список имен юзеров стрингой через запятую

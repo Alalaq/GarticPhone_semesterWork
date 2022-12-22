@@ -2,6 +2,7 @@ package ru.kpfu.itis.general.entities;
 
 import lombok.Getter;
 import lombok.Setter;
+import ru.kpfu.itis.protocol.Constants;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -10,8 +11,6 @@ import java.util.List;
 @Setter
 public class Room {
     //Todo make some logic of starting room
-    public static final int MAX_PLAYERS = 8;
-    public static final int MIN_PLAYERS = 3;
     protected boolean ifStarted;
 
     protected List<Player> players;
@@ -24,7 +23,7 @@ public class Room {
     }
 
     public boolean addPlayer(Player player) {
-        if (players.size() < MAX_PLAYERS) {
+        if (players.size() < Constants.MAXIMUM_PLAYERS) {
             players.add(player);
             return true;
         } else {
@@ -41,7 +40,7 @@ public class Room {
     }
 
     public boolean isAllReady() {
-        if (players.size() != MAX_PLAYERS) {
+        if (players.size() != Constants.MAXIMUM_PLAYERS) {
             return false;
         }
 
