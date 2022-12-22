@@ -7,6 +7,7 @@ import javafx.stage.Stage;
 import ru.kpfu.itis.ClientApp;
 import ru.kpfu.itis.connection.Connection;
 import ru.kpfu.itis.general.entities.Player;
+import ru.kpfu.itis.gui.controllers.GameController;
 import ru.kpfu.itis.gui.controllers.LobbyController;
 import ru.kpfu.itis.gui.controllers.LogInController;
 
@@ -38,6 +39,18 @@ public class ScenesManager {
         }
         LogInController controller = loader.getController();
         controller.setStage(stage);
+        return new Scene(root);
+    }
+    public static Scene getGameScene (Connection connection, Stage stage){
+        loader = new FXMLLoader(ClientApp.class.getResource("game.fxml"));
+        try {
+            root = loader.load();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        GameController controller = loader.getController();
+        controller.setStage(stage);
+        controller.setConnection(connection);
         return new Scene(root);
     }
 }

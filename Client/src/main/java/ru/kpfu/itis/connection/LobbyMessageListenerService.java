@@ -7,6 +7,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
 import javafx.stage.Stage;
 import ru.kpfu.itis.general.entities.Player;
+import ru.kpfu.itis.gui.helpers.ScenesManager;
 import ru.kpfu.itis.protocol.Constants;
 import ru.kpfu.itis.protocol.Message;
 import ru.kpfu.itis.protocol.MessageInputStream;
@@ -57,7 +58,9 @@ public class LobbyMessageListenerService extends Service<Void> {
                             player.setIsAdmin(true);
                             startGameButton.setVisible(true);
                         });
-                        case Constants.GAME_STARTED -> stage.setScene(null);// todo сделать сцену игры где уже можно рисовать
+                        case Constants.GAME_STARTED -> Platform.runLater(()->{
+                            stage.setScene(ScenesManager.getGameScene(connection,stage));
+                        });
                     }
                 }
                 return null;

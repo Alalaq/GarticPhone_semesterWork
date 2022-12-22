@@ -20,8 +20,8 @@ public class ClientApp extends Application {
     public void start(Stage stage) throws IOException {
         stage.setScene(ScenesManager.getLogInScene(stage));
 
-        stage.setWidth(500);
-        stage.setHeight(500);
+        stage.setWidth(1600);
+        stage.setHeight(900);
         stage.setTitle("Hello!");
         stage.show();
 

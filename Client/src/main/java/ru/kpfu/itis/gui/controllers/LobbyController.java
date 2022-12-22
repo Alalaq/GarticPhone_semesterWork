@@ -26,8 +26,7 @@ public class LobbyController {
     private Connection connection;
 
     public void startGame(ActionEvent actionEvent) {
-        //TODO
-        new Alert(Alert.AlertType.ERROR,"213123").show();
+        connection.sendMessage(new Message(Constants.START_GAME));
     }
 
 
