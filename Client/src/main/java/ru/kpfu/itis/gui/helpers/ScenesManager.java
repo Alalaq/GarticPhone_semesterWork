@@ -41,7 +41,7 @@ public class ScenesManager {
         controller.setStage(stage);
         return new Scene(root);
     }
-    public static Scene getGameScene (Connection connection, Stage stage){
+    public static Scene getGameScene (Connection connection, Stage stage,Player player){
         loader = new FXMLLoader(ClientApp.class.getResource("game.fxml"));
         try {
             root = loader.load();
@@ -50,6 +50,7 @@ public class ScenesManager {
         }
         GameController controller = loader.getController();
         controller.setStage(stage);
+        controller.setPlayer(player);
         controller.setConnection(connection);
         return new Scene(root);
     }

@@ -5,7 +5,7 @@ import ru.kpfu.itis.server.Server;
 
 import java.rmi.ServerException;
 
-public class App {
+public class ServerApp {
     public static void main(String[] args) {
         int port = Constants.PORT;
         Server server = new Server(port);
