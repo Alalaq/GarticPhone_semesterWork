@@ -25,6 +25,12 @@ public class Constants {
     public static final byte ALLOW_ENTRANCE = -6;
     public static final byte INVALID_NICKNAME = -7;
     public static final byte NEXT_ROUND = -8; // все готовы, кидаем картинку, которой у пользователя не было
+    public static final byte GAME_START_DENIED = -9;  // неуспешное неначало игры
+    public static final byte WRONG_PROTOCOL_VERSION = -10;  // неуспешное неначало игры
+    public static final byte ILLEGAL_MESSAGE_TYPE = -11;  // неуспешное неначало игры
+
+
+
 
 
 }

@@ -54,8 +54,11 @@ public class Connection implements Runnable {
                         listener.handle(this, message);
                     }
                 }
-            } catch (IllegalProtocolVersionException | IllegalMessageTypeException e) {
-                message = new Message(Constants.ERROR, e.getMessage().getBytes());
+            } catch (IllegalProtocolVersionException e) {
+                message = new Message(Constants.WRONG_PROTOCOL_VERSION, e.getMessage().getBytes());
+                outputStream.writeMessage(message);
+            } catch (IllegalMessageTypeException exc){
+                message = new Message(Constants.ILLEGAL_MESSAGE_TYPE, exc.getMessage().getBytes());
                 outputStream.writeMessage(message);
             }
         } catch (IOException e) {

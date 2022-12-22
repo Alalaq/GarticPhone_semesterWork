@@ -3,10 +3,12 @@ package ru.kpfu.itis.connection;
 import javafx.application.Platform;
 import javafx.concurrent.Service;
 import javafx.concurrent.Task;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
 import javafx.stage.Stage;
 import ru.kpfu.itis.general.entities.Player;
+import ru.kpfu.itis.general.helpers.parsers.TextParser;
 import ru.kpfu.itis.gui.helpers.ScenesManager;
 import ru.kpfu.itis.protocol.Constants;
 import ru.kpfu.itis.protocol.Message;
@@ -60,6 +62,9 @@ public class LobbyMessageListenerService extends Service<Void> {
                         });
                         case Constants.GAME_STARTED -> Platform.runLater(()->{
                             stage.setScene(ScenesManager.getGameScene(connection,stage));
+                        });
+                        case Constants.GAME_START_DENIED -> Platform.runLater(() ->{
+                            new Alert(Alert.AlertType.ERROR, TextParser.deserializeMessage(message.getBody())).show();
                         });
                     }
                 }

@@ -19,7 +19,7 @@ public class Main {
         try (MessageOutputStream out = new MessageOutputStream((new FileOutputStream("C:\\Users\\muzik\\Desktop\\java\\GarticPhone_semesterWork\\Protocol\\src\\main\\resources\\test.txt")));
              MessageInputStream in = new MessageInputStream(new MessageInputStream(new FileInputStream("C:\\Users\\muzik\\Desktop\\java\\GarticPhone_semesterWork\\Protocol\\src\\main\\resources\\test.txt")))) {
 
-            Message message = new Message(Constants.ERROR, "testaaaaaaaaaaaaaaaa".getBytes(StandardCharsets.UTF_16));
+            Message message = new Message(Constants.ENTRANCE, "testaaaaaaaaaaaaaaaa".getBytes(StandardCharsets.UTF_16));
 
             out.writeMessage(message);
             out.flush();
