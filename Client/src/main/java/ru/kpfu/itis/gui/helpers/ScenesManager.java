@@ -25,11 +25,11 @@ public class ScenesManager {
         }
         LobbyController controller = loader.getController();
         controller.setStage(stage);
-        controller.setConnection(connection);
         controller.setPlayer(player);
+        controller.setConnection(connection);
         return new Scene(root);
     }
-    public static Scene getLogInScene(Connection connection,Stage stage){
+    public static Scene getLogInScene(Stage stage){
         loader = new FXMLLoader(ClientApp.class.getResource("login.fxml"));
         try {
             root = loader.load();
@@ -38,7 +38,6 @@ public class ScenesManager {
         }
         LogInController controller = loader.getController();
         controller.setStage(stage);
-        controller.setConnection(connection);
         return new Scene(root);
     }
 }

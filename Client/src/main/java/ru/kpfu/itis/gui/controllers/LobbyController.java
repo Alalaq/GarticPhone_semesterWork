@@ -46,6 +46,6 @@ public class LobbyController {
     }
     public void leaveRoom(ActionEvent actionEvent) {
         connection.sendMessage(new Message(Constants.EXIT_ROOM, PlayerParser.serializeObject(player))); //todo add user to message
-        stage.setScene(ScenesManager.getLogInScene(connection,stage));
+        stage.setScene(ScenesManager.getLogInScene(stage));
     }
 }

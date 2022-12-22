@@ -18,7 +18,7 @@ import java.net.UnknownHostException;
 public class ClientApp extends Application {
     @Override
     public void start(Stage stage) throws IOException {
-        stage.setScene(ScenesManager.getLogInScene(initConnection(),stage));
+        stage.setScene(ScenesManager.getLogInScene(stage));
 
         stage.setWidth(500);
         stage.setHeight(500);
@@ -29,13 +29,5 @@ public class ClientApp extends Application {
 
     public static void main(String[] args) {
         launch(args);
-    }
-
-    public Connection initConnection() {
-        try {
-            return new Connection(InetAddress.getLocalHost(), Constants.PORT);
-        } catch (UnknownHostException e) {
-            throw new IllegalArgumentException();
-        }
     }
 }

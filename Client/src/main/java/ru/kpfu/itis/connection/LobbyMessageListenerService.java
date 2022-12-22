@@ -54,6 +54,7 @@ public class LobbyMessageListenerService extends Service<Void> {
                             });
                         }
                         case Constants.GIVE_ADMIN_PERMISSION -> Platform.runLater(() -> {
+                            player.setIsAdmin(true);
                             startGameButton.setVisible(true);
                         });
                         case Constants.GAME_STARTED -> stage.setScene(null);// todo сделать сцену игры где уже можно рисовать
