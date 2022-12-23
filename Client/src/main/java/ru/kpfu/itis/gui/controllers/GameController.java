@@ -2,6 +2,7 @@ package ru.kpfu.itis.gui.controllers;
 
 import javafx.embed.swing.SwingFXUtils;
 import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
 import javafx.geometry.Insets;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
@@ -15,6 +16,7 @@ import javafx.scene.layout.CornerRadii;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import ru.kpfu.itis.connection.Connection;
+import ru.kpfu.itis.connection.GameMessageListenerService;
 import ru.kpfu.itis.general.entities.Drawing;
 import ru.kpfu.itis.general.entities.Player;
 import ru.kpfu.itis.general.helpers.parsers.DrawingParser;
@@ -48,7 +50,6 @@ public class GameController {
     private Player player;
     private Boolean ready = false;
     private Stage stage;
-    private Color currentColor;
     private GraphicsContext gc;
     private Connection connection;
 
@@ -57,18 +58,23 @@ public class GameController {
         gc.setFill(Color.WHITE);
         gc.fillRect(0, 0, drawCanvas.getWidth(), drawCanvas.getHeight());
 
+        initButtons();
+        initCanvasListeners();
+    }
 
+    private void initButtons() {
         Button[] buttons = {redButton, orangeButton, yellowBtn, greenBtn, aquaButton, blueButton, blueVioletButton, blackButton, whiteButton, brownButton};
         for (int i = 0; i < colors.length; i++) {
             buttons[i].setBackground(new Background(new BackgroundFill(colors[i], CornerRadii.EMPTY, Insets.EMPTY)));
             int finalI = i;
             buttons[i].setOnMouseClicked(event -> {
-                currentColor = colors[finalI];
-                System.out.println(currentColor);
-                gc.setStroke(colors[finalI]);
-            });
+                        gc.setStroke(colors[finalI]);
+                    }
+            );
         }
+    }
 
+    private void initCanvasListeners() {
         drawCanvas.addEventHandler(MouseEvent.MOUSE_PRESSED,
                 event -> {
                     if (!ready) {
@@ -85,12 +91,6 @@ public class GameController {
                         gc.stroke();
                     }
                 });
-
-        drawCanvas.addEventHandler(MouseEvent.MOUSE_RELEASED,
-                event -> {
-
-                });
-
     }
 
     public void setStage(Stage stage) {
@@ -101,52 +101,30 @@ public class GameController {
 
     public void setConnection(Connection connection) {
         this.connection = connection;
+        new GameMessageListenerService(connection,stage,drawCanvas).start();
     }
 
-    public void changeReady() {
+    @FXML
+    private void changeReady() {
         ready = !ready;
         readyButton.setText(ready ? "I'm not ready :(" : "I'm ready!");
-        connection.sendMessage(new Message(Constants.READINESS,getDrawingFromCanvas()));
+        System.out.println(Arrays.toString(getDrawingFromCanvas()));
+        connection.sendMessage(new Message(Constants.READINESS, getDrawingFromCanvas()));
     }
 
-    public byte[] getDrawingFromCanvas(){
-        WritableImage image = new WritableImage((int) drawCanvas.getWidth(), (int) drawCanvas.getHeight());
-        drawCanvas.snapshot(null, image);
-        BufferedImage bufferedImage = SwingFXUtils.fromFXImage(image, null);
-        ByteArrayOutputStream out = new ByteArrayOutputStream();
+    private byte[] getDrawingFromCanvas() {
         try {
-            ImageIO.write(bufferedImage, "jpg", out);
+            WritableImage image = new WritableImage((int) drawCanvas.getWidth(), (int) drawCanvas.getHeight());
+            drawCanvas.snapshot(null, image);
+            BufferedImage bufferedImage = SwingFXUtils.fromFXImage(image, null);
+            ByteArrayOutputStream out = new ByteArrayOutputStream(1000000);
+            ImageIO.write(bufferedImage, "png", out);
+            return out.toByteArray();
         } catch (IOException e) {
-            e.printStackTrace();
+            throw new IllegalArgumentException(e);
         }
-        return out.toByteArray();
     }
 
-    public void testDraw(ActionEvent actionEvent) {
-        WritableImage image = new WritableImage((int) drawCanvas.getWidth(), (int) drawCanvas.getHeight());
-        drawCanvas.snapshot(null, image);
-        byte[] buffer = new byte[(int) (drawCanvas.getWidth() * drawCanvas.getHeight() * 4)];
-        image.getPixelReader().getPixels(0,
-                0,
-                (int) drawCanvas.getWidth(),
-                (int) drawCanvas.getHeight(),
-                PixelFormat.getByteBgraInstance(),
-                buffer,
-                0,
-                (int) drawCanvas.getWidth() * 4);
-        WritableImage writableImage = new WritableImage((int) drawCanvas.getWidth(), (int) drawCanvas.getHeight());
-
-        writableImage.getPixelWriter().setPixels(0,
-                0,
-                (int) drawCanvas.getWidth(),
-                (int) drawCanvas.getHeight(),
-                PixelFormat.getByteBgraInstance(),
-                buffer,
-                0,
-                (int) drawCanvas.getWidth() * 4);
-        System.out.println(writableImage.getWidth());
-        gc.drawImage(writableImage, 0, 0, (int) drawCanvas.getWidth(), (int) drawCanvas.getHeight());
-    }
 
     public void setPlayer(Player player) {
         this.player = player;
