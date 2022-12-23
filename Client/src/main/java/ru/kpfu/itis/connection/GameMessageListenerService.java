@@ -6,6 +6,7 @@ import javafx.concurrent.Task;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.control.Alert;
 import javafx.scene.image.PixelFormat;
 import javafx.scene.image.WritableImage;
 import javafx.scene.paint.Color;
@@ -48,6 +49,7 @@ public class GameMessageListenerService extends Service<Void> {
                     switch (message.getType()) {
                         case Constants.NEXT_ROUND -> Platform.runLater(() -> {
                             clearCanvas();
+                            new Alert(Alert.AlertType.INFORMATION, "Новый раунд, Ура !!!").show();
                             drawNewImage(message.getBody());
                         });
                         case Constants.GAME_ENDED -> {
