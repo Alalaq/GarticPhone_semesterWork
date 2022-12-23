@@ -1,6 +1,6 @@
 package ru.kpfu.itis.exceptions;
 
-public class IllegalProtocolVersionException extends RuntimeException{
+public class IllegalProtocolVersionException extends RuntimeException {
     public IllegalProtocolVersionException() {
         super();
     }

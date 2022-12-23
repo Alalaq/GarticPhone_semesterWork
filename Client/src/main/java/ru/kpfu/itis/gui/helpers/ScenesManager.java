@@ -17,7 +17,7 @@ public class ScenesManager {
     private static FXMLLoader loader;
     private static Parent root;
 
-    public static Scene getLobbyScene(Player player, Connection connection, Stage stage){
+    public static Scene getLobbyScene(Player player, Connection connection, Stage stage) {
         loader = new FXMLLoader(ClientApp.class.getResource("lobby.fxml"));
         try {
             root = loader.load();
@@ -30,7 +30,8 @@ public class ScenesManager {
         controller.setConnection(connection);
         return new Scene(root);
     }
-    public static Scene getLogInScene(Stage stage){
+
+    public static Scene getLogInScene(Stage stage) {
         loader = new FXMLLoader(ClientApp.class.getResource("login.fxml"));
         try {
             root = loader.load();
@@ -41,7 +42,8 @@ public class ScenesManager {
         controller.setStage(stage);
         return new Scene(root);
     }
-    public static Scene getGameScene (Connection connection, Stage stage,Player player){
+
+    public static Scene getGameScene(Connection connection, Stage stage, Player player) {
         loader = new FXMLLoader(ClientApp.class.getResource("game.fxml"));
         try {
             root = loader.load();

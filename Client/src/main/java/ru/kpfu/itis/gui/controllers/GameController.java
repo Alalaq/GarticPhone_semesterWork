@@ -1,13 +1,11 @@
 package ru.kpfu.itis.gui.controllers;
 
 import javafx.embed.swing.SwingFXUtils;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Button;
-import javafx.scene.image.PixelFormat;
 import javafx.scene.image.WritableImage;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Background;
@@ -17,18 +15,14 @@ import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import ru.kpfu.itis.connection.Connection;
 import ru.kpfu.itis.connection.GameMessageListenerService;
-import ru.kpfu.itis.general.entities.Drawing;
 import ru.kpfu.itis.general.entities.Player;
-import ru.kpfu.itis.general.helpers.parsers.DrawingParser;
 import ru.kpfu.itis.protocol.Constants;
 import ru.kpfu.itis.protocol.Message;
 
 import javax.imageio.ImageIO;
-import javax.swing.*;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.math.BigInteger;
 import java.util.Arrays;
 
 public class GameController {
@@ -101,7 +95,7 @@ public class GameController {
 
     public void setConnection(Connection connection) {
         this.connection = connection;
-        new GameMessageListenerService(connection,stage,drawCanvas).start();
+        new GameMessageListenerService(connection, stage, drawCanvas).start();
     }
 
     @FXML

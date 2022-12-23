@@ -5,9 +5,7 @@ import ru.kpfu.itis.protocol.Constants;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Setter
 public class TypesHelper {

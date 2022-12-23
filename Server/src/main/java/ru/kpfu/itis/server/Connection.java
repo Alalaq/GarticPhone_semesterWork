@@ -1,13 +1,10 @@
 package ru.kpfu.itis.server;
 
-import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 import ru.kpfu.itis.exceptions.IllegalMessageTypeException;
 import ru.kpfu.itis.exceptions.IllegalProtocolVersionException;
 import ru.kpfu.itis.general.entities.Player;
-import ru.kpfu.itis.general.helpers.parsers.TextParser;
-import ru.kpfu.itis.listeners.ReadinessListener;
 import ru.kpfu.itis.listeners.general.AbstractServerEventListener;
 import ru.kpfu.itis.listeners.general.ServerEventListener;
 import ru.kpfu.itis.protocol.Constants;

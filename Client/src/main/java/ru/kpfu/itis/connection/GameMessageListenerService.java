@@ -26,7 +26,7 @@ public class GameMessageListenerService extends Service<Void> {
     private GraphicsContext gc;
 
     public GameMessageListenerService(Connection connection, Stage stage, Canvas drawCanvas) {
-        this.socket =connection.getSocket();
+        this.socket = connection.getSocket();
         this.in = connection.getInputStream();
         this.stage = stage;
         this.drawCanvas = drawCanvas;
@@ -38,10 +38,10 @@ public class GameMessageListenerService extends Service<Void> {
         return new Task<Void>() {
             @Override
             protected Void call() throws Exception {
-                while (socket.isConnected()){
+                while (socket.isConnected()) {
                     Message message = in.readMessage();
-                    switch (message.getType()){
-                        case Constants.NEXT_ROUND -> Platform.runLater(()->{
+                    switch (message.getType()) {
+                        case Constants.NEXT_ROUND -> Platform.runLater(() -> {
                             clearCanvas();
                             drawNewImage(DrawingParser.deserializeObject(message.getBody()));
                         });
@@ -72,6 +72,6 @@ public class GameMessageListenerService extends Service<Void> {
     private void clearCanvas() {
         gc = drawCanvas.getGraphicsContext2D();
         gc.setFill(Color.WHITE);
-        gc.fillRect(0,0,drawCanvas.getWidth(), drawCanvas.getHeight());
+        gc.fillRect(0, 0, drawCanvas.getWidth(), drawCanvas.getHeight());
     }
 }

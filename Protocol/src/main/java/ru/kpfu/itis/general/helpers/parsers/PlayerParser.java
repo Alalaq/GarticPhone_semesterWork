@@ -11,7 +11,7 @@ import java.util.List;
 public class PlayerParser {
     private static final Gson gson = new Gson();
 
-    public PlayerParser(){
+    public PlayerParser() {
     }
 
     public static byte[] serializeObject(Player player) {
@@ -34,7 +34,7 @@ public class PlayerParser {
 
         JsonArray array = gson.fromJson(text, JsonArray.class);
 
-        for (JsonElement jsonElement: array){
+        for (JsonElement jsonElement : array) {
             Player player = gson.fromJson(jsonElement, Player.class);
             resultPlayers.add(player);
         }

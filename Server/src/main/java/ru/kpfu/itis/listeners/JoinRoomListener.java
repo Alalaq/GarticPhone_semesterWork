@@ -23,13 +23,13 @@ public class JoinRoomListener extends AbstractServerEventListener {
         Room joinedRoom = server.getRoom();
         Player player = connection.getPlayer();
         String isJoinAllowed = "";
-        if (player.inRoom()){
+        if (player.inRoom()) {
             isJoinAllowed = "Player already in room";
         }
-        if (!isCorrectNickname(player.getNickname(), joinedRoom)){
+        if (!isCorrectNickname(player.getNickname(), joinedRoom)) {
             isJoinAllowed += "\nThat nickname is already in use in that room";
         }
-        if (!(isTherePlace(joinedRoom))){
+        if (!(isTherePlace(joinedRoom))) {
             isJoinAllowed += "\nRoom is full";
         }
 
@@ -46,23 +46,22 @@ public class JoinRoomListener extends AbstractServerEventListener {
 
             server.sendMulticastMessage(joinedRoom, allowJoin);
             server.sendMulticastMessage(joinedRoom, usersChanged);
-        }
-        else {
+        } else {
             Message joinDenied = new Message(Constants.DENY_JOIN, TextParser.serializeMessage(isJoinAllowed));
             server.sendMessage(connection, joinDenied);
         }
     }
 
-    private boolean isCorrectNickname(String nickname, Room joinedRoom){
-        for (String playersNickname : joinedRoom.getPlayersNicknames()){
-            if (nickname.equals(playersNickname)){
+    private boolean isCorrectNickname(String nickname, Room joinedRoom) {
+        for (String playersNickname : joinedRoom.getPlayersNicknames()) {
+            if (nickname.equals(playersNickname)) {
                 return false;
             }
         }
         return true;
     }
 
-    private boolean isTherePlace(Room joinedRoom){
+    private boolean isTherePlace(Room joinedRoom) {
         return (joinedRoom.getPlayers().size() < Constants.MAXIMUM_PLAYERS);
     }
 }

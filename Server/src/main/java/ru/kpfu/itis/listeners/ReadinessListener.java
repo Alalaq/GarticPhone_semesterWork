@@ -2,17 +2,17 @@ package ru.kpfu.itis.listeners;
 
 import com.google.gson.JsonSyntaxException;
 import org.apache.commons.lang.ArrayUtils;
-import ru.kpfu.itis.general.entities.Drawing;
 import ru.kpfu.itis.general.entities.Player;
 import ru.kpfu.itis.general.entities.Room;
 import ru.kpfu.itis.general.helpers.general.DrawingCode;
-import ru.kpfu.itis.general.helpers.parsers.DrawingParser;
 import ru.kpfu.itis.listeners.general.AbstractServerEventListener;
 import ru.kpfu.itis.protocol.Constants;
 import ru.kpfu.itis.protocol.Message;
 import ru.kpfu.itis.server.Connection;
 
-import java.util.*;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
 
 public class ReadinessListener extends AbstractServerEventListener {
     public ReadinessListener() {

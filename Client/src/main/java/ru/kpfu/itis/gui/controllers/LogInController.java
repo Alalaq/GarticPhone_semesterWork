@@ -8,7 +8,6 @@ import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import ru.kpfu.itis.connection.Connection;
 import ru.kpfu.itis.connection.LogInMessageListenerService;
-import ru.kpfu.itis.gui.helpers.ScenesManager;
 import ru.kpfu.itis.protocol.Constants;
 import ru.kpfu.itis.protocol.Message;
 
@@ -47,7 +46,7 @@ public class LogInController {
 
     public void setConnection(Connection connection) {
         this.connection = connection;
-        new LogInMessageListenerService(connection, stage,errorLabel).start();
+        new LogInMessageListenerService(connection, stage, errorLabel).start();
     }
 
 }

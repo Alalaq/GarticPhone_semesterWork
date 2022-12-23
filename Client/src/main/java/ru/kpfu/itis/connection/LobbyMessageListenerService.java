@@ -16,7 +16,6 @@ import ru.kpfu.itis.protocol.MessageInputStream;
 
 import java.net.Socket;
 import java.nio.charset.StandardCharsets;
-import java.util.Arrays;
 
 public class LobbyMessageListenerService extends Service<Void> {
 
@@ -48,10 +47,10 @@ public class LobbyMessageListenerService extends Service<Void> {
                     Message message = in.readMessage();
                     switch (message.getType()) {
                         case Constants.USERS_CHANGED -> {
-                            String[] users = new String(message.getBody(), StandardCharsets.UTF_8).replace("[","").replace("]","").split(",");
-                            Platform.runLater(()->{
+                            String[] users = new String(message.getBody(), StandardCharsets.UTF_8).replace("[", "").replace("]", "").split(",");
+                            Platform.runLater(() -> {
                                 userList.getItems().clear();
-                                for (String user: users){
+                                for (String user : users) {
                                     userList.getItems().add(user.trim());
                                 }
                             });
@@ -60,11 +59,11 @@ public class LobbyMessageListenerService extends Service<Void> {
                             player.setIsAdmin(true);
                             startGameButton.setVisible(true);
                         });
-                        case Constants.GAME_STARTED -> Platform.runLater(()->{
-                            stage.setScene(ScenesManager.getGameScene(connection,stage,player));
+                        case Constants.GAME_STARTED -> Platform.runLater(() -> {
+                            stage.setScene(ScenesManager.getGameScene(connection, stage, player));
                             flag = false;
                         });
-                        case Constants.GAME_START_DENIED -> Platform.runLater(() ->{
+                        case Constants.GAME_START_DENIED -> Platform.runLater(() -> {
                             new Alert(Alert.AlertType.ERROR, TextParser.deserializeMessage(message.getBody())).show();
                         });
                     }

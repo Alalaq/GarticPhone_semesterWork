@@ -24,17 +24,19 @@ public class Connection {
     }
 
 
-    public void sendMessage(Message message){
+    public void sendMessage(Message message) {
         try {
             outputStream.writeMessage(message);
         } catch (IOException e) {
             throw new IllegalArgumentException("cant send message"); //TODO
         }
     }
-    public Socket getSocket(){
+
+    public Socket getSocket() {
         return socket;
     }
-    public void close(){
+
+    public void close() {
         try {
             socket.close();
         } catch (IOException e) {

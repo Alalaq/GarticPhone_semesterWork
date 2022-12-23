@@ -1,40 +1,47 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.*?>
-<?import javafx.scene.canvas.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.canvas.Canvas?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
-
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/11.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ru.kpfu.itis.gui.controllers.GameController">
-    <Canvas fx:id="drawCanvas" height="600.0" nodeOrientation="INHERIT" style="-fx-background-color: white" width="800.0" AnchorPane.bottomAnchor="428.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="839.0" AnchorPane.topAnchor="40.0" />
-    <HBox alignment="CENTER" maxHeight="40.0" prefHeight="40.0" prefWidth="200.0" style="-fx-border-color: black" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0">
-        <Label text="Draw your shape" />
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0"
+            prefWidth="800.0" xmlns="http://javafx.com/javafx/11.0.2" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="ru.kpfu.itis.gui.controllers.GameController">
+    <Canvas fx:id="drawCanvas" height="600.0" nodeOrientation="INHERIT" style="-fx-background-color: white"
+            width="800.0" AnchorPane.bottomAnchor="428.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="839.0"
+            AnchorPane.topAnchor="40.0"/>
+    <HBox alignment="CENTER" maxHeight="40.0" prefHeight="40.0" prefWidth="200.0" style="-fx-border-color: black"
+          AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0">
+        <Label text="Draw your shape"/>
         <Button fx:id="readyButton" onAction="#changeReady" text="I'm ready!">
-         <HBox.margin>
-            <Insets left="16.0" />
-         </HBox.margin></Button>
+            <HBox.margin>
+                <Insets left="16.0"/>
+            </HBox.margin>
+        </Button>
     </HBox>
-    <GridPane alignment="CENTER" maxWidth="120.0" minWidth="120.0" style="-fx-border-color: black; -fx-padding: 32; -fx-background-color: gray" vgap="4" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="40.0">
+    <GridPane alignment="CENTER" maxWidth="120.0" minWidth="120.0"
+              style="-fx-border-color: black; -fx-padding: 32; -fx-background-color: gray" vgap="4"
+              AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="40.0">
         <columnConstraints>
-            <ColumnConstraints minWidth="50.0" prefWidth="100.0" />
-            <ColumnConstraints minWidth="50.0" prefWidth="100.0" />
+            <ColumnConstraints minWidth="50.0" prefWidth="100.0"/>
+            <ColumnConstraints minWidth="50.0" prefWidth="100.0"/>
         </columnConstraints>
-        <Button fx:id="redButton" minHeight="40" minWidth="40" GridPane.columnIndex="0" GridPane.rowIndex="0" />
-        <Button fx:id="orangeButton" minHeight="40" minWidth="40" GridPane.columnIndex="1" GridPane.rowIndex="0" />
-        <Button fx:id="yellowBtn" minHeight="40" minWidth="40" GridPane.columnIndex="0" GridPane.rowIndex="1" />
-        <Button fx:id="greenBtn" minHeight="40" minWidth="40" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-        <Button fx:id="aquaButton" minHeight="40" minWidth="40" GridPane.columnIndex="0" GridPane.rowIndex="2" />
-        <Button fx:id="blueButton" minHeight="40" minWidth="40" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-        <Button fx:id="blueVioletButton" minHeight="40" minWidth="40" GridPane.columnIndex="0" GridPane.rowIndex="3" />
-        <Button fx:id="blackButton" minHeight="40" minWidth="40" GridPane.columnIndex="1" GridPane.rowIndex="3" />
-        <Button fx:id="whiteButton" minHeight="40" minWidth="40" GridPane.columnIndex="0" GridPane.rowIndex="4" />
-        <Button fx:id="brownButton" minHeight="40" minWidth="40" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+        <Button fx:id="redButton" minHeight="40" minWidth="40" GridPane.columnIndex="0" GridPane.rowIndex="0"/>
+        <Button fx:id="orangeButton" minHeight="40" minWidth="40" GridPane.columnIndex="1" GridPane.rowIndex="0"/>
+        <Button fx:id="yellowBtn" minHeight="40" minWidth="40" GridPane.columnIndex="0" GridPane.rowIndex="1"/>
+        <Button fx:id="greenBtn" minHeight="40" minWidth="40" GridPane.columnIndex="1" GridPane.rowIndex="1"/>
+        <Button fx:id="aquaButton" minHeight="40" minWidth="40" GridPane.columnIndex="0" GridPane.rowIndex="2"/>
+        <Button fx:id="blueButton" minHeight="40" minWidth="40" GridPane.columnIndex="1" GridPane.rowIndex="2"/>
+        <Button fx:id="blueVioletButton" minHeight="40" minWidth="40" GridPane.columnIndex="0" GridPane.rowIndex="3"/>
+        <Button fx:id="blackButton" minHeight="40" minWidth="40" GridPane.columnIndex="1" GridPane.rowIndex="3"/>
+        <Button fx:id="whiteButton" minHeight="40" minWidth="40" GridPane.columnIndex="0" GridPane.rowIndex="4"/>
+        <Button fx:id="brownButton" minHeight="40" minWidth="40" GridPane.columnIndex="1" GridPane.rowIndex="4"/>
         <rowConstraints>
-            <RowConstraints />
-            <RowConstraints />
-            <RowConstraints />
-            <RowConstraints />
-            <RowConstraints />
+            <RowConstraints/>
+            <RowConstraints/>
+            <RowConstraints/>
+            <RowConstraints/>
+            <RowConstraints/>
         </rowConstraints>
     </GridPane>
 </AnchorPane>

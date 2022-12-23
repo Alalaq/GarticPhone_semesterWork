@@ -6,6 +6,8 @@ import ru.kpfu.itis.server.Server;
 
 public interface ServerEventListener {
     public void init(Server server);
+
     public void handle(Connection connection, Message message);
+
     public byte getType();
 }

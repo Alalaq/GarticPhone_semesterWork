@@ -11,7 +11,7 @@ public class ServerApp {
         Server server = new Server(port);
         try {
             server.start();
-        }catch (ServerException e) {
+        } catch (ServerException e) {
             throw new IllegalStateException(e);
         }
     }

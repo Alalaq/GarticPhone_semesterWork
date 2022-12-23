@@ -1,23 +1,18 @@
 package ru.kpfu.itis.connection;
 
-import com.google.gson.internal.bind.util.ISO8601Utils;
 import javafx.application.Platform;
 import javafx.concurrent.Service;
 import javafx.concurrent.Task;
 import javafx.scene.control.Label;
 import javafx.stage.Stage;
-import ru.kpfu.itis.general.entities.Player;
 import ru.kpfu.itis.general.helpers.parsers.PlayerParser;
 import ru.kpfu.itis.gui.helpers.ScenesManager;
-import ru.kpfu.itis.protocol.Message;
 import ru.kpfu.itis.protocol.Constants;
+import ru.kpfu.itis.protocol.Message;
 import ru.kpfu.itis.protocol.MessageInputStream;
 
-
-import java.io.IOException;
 import java.net.Socket;
 import java.nio.charset.StandardCharsets;
-import java.util.Arrays;
 
 public class LogInMessageListenerService extends Service<Void> {
 

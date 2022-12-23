@@ -73,9 +73,9 @@ public class Room {
         return players;
     }
 
-    public List<String> getPlayersNicknames(){
-        List<String> stringPlayers= new ArrayList<>();
-        for (Player player : players){
+    public List<String> getPlayersNicknames() {
+        List<String> stringPlayers = new ArrayList<>();
+        for (Player player : players) {
             stringPlayers.add(player.nickname);
         }
         return stringPlayers;
