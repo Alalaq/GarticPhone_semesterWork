@@ -3,6 +3,7 @@ package ru.kpfu.itis.connection;
 import javafx.application.Platform;
 import javafx.concurrent.Service;
 import javafx.concurrent.Task;
+import javafx.embed.swing.SwingFXUtils;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.PixelFormat;
@@ -15,6 +16,10 @@ import ru.kpfu.itis.protocol.Constants;
 import ru.kpfu.itis.protocol.Message;
 import ru.kpfu.itis.protocol.MessageInputStream;
 
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
 import java.net.Socket;
 
 public class GameMessageListenerService extends Service<Void> {
@@ -43,7 +48,7 @@ public class GameMessageListenerService extends Service<Void> {
                     switch (message.getType()) {
                         case Constants.NEXT_ROUND -> Platform.runLater(() -> {
                             clearCanvas();
-                            drawNewImage(DrawingParser.deserializeObject(message.getBody()));
+                            drawNewImage(message.getBody());
                         });
                         case Constants.GAME_ENDED -> {
                             System.out.println("END"); //TODO : show end
@@ -55,18 +60,13 @@ public class GameMessageListenerService extends Service<Void> {
         };
     }
 
-    private void drawNewImage(Drawing drawing) {
-        WritableImage writableImage = new WritableImage((int) drawCanvas.getWidth(), (int) drawCanvas.getHeight());
-
-        writableImage.getPixelWriter().setPixels(0,
-                0,
-                (int) drawCanvas.getWidth(),
-                (int) drawCanvas.getHeight(),
-                PixelFormat.getByteBgraInstance(),
-                drawing.getImage(),
-                0,
-                (int) drawCanvas.getWidth() * 4);
-        gc.drawImage(writableImage, 0, 0, (int) drawCanvas.getWidth(), (int) drawCanvas.getHeight());
+    private void drawNewImage(byte[] drawing) {
+        try {
+            BufferedImage image = ImageIO.read(new ByteArrayInputStream(drawing));
+            gc.drawImage(SwingFXUtils.toFXImage(image,null),0,0,drawCanvas.getWidth(),drawCanvas.getHeight());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     private void clearCanvas() {
