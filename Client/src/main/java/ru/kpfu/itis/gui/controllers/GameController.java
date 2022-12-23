@@ -1,5 +1,6 @@
 package ru.kpfu.itis.gui.controllers;
 
+import javafx.embed.swing.SwingFXUtils;
 import javafx.event.ActionEvent;
 import javafx.geometry.Insets;
 import javafx.scene.canvas.Canvas;
@@ -20,6 +21,11 @@ import ru.kpfu.itis.general.helpers.parsers.DrawingParser;
 import ru.kpfu.itis.protocol.Constants;
 import ru.kpfu.itis.protocol.Message;
 
+import javax.imageio.ImageIO;
+import javax.swing.*;
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.math.BigInteger;
 import java.util.Arrays;
 
@@ -100,32 +106,20 @@ public class GameController {
     public void changeReady() {
         ready = !ready;
         readyButton.setText(ready ? "I'm not ready :(" : "I'm ready!");
-        if (!ready) {
-            connection.sendMessage(new Message(Constants.READINESS));
-        } else {
-            connection.sendMessage(new Message(Constants.START_SENDING_MESSAGE));
-            byte[] image = getDrawingFromCanvas().getImage();
-            for (int i = 0; i < 1000; i++) {
-//                connection.sendMessage(new Message(Constants.READINESS, Arrays.copyOfRange(image, i * image.length / 1000, (i + 1) * image.length / 10 - 1)));
-                System.out.println(i);
-                connection.sendMessage(new Message(Constants.READINESS, new byte[(int) (drawCanvas.getWidth() * drawCanvas.getHeight() * 4/1000)]));
-            }
-        }
+        connection.sendMessage(new Message(Constants.READINESS,getDrawingFromCanvas()));
     }
 
-    public Drawing getDrawingFromCanvas(){
+    public byte[] getDrawingFromCanvas(){
         WritableImage image = new WritableImage((int) drawCanvas.getWidth(), (int) drawCanvas.getHeight());
         drawCanvas.snapshot(null, image);
-        byte[] buffer = new byte[(int) (drawCanvas.getWidth() * drawCanvas.getHeight() * 4 )];
-        image.getPixelReader().getPixels(0,
-                0,
-                (int) drawCanvas.getWidth(),
-                (int) drawCanvas.getHeight(),
-                PixelFormat.getByteBgraInstance(),
-                buffer,
-                0,
-                (int) drawCanvas.getWidth() * 4);
-        return new Drawing(buffer, player.getNickname());
+        BufferedImage bufferedImage = SwingFXUtils.fromFXImage(image, null);
+        ByteArrayOutputStream out = new ByteArrayOutputStream();
+        try {
+            ImageIO.write(bufferedImage, "jpg", out);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return out.toByteArray();
     }
 
     public void testDraw(ActionEvent actionEvent) {
