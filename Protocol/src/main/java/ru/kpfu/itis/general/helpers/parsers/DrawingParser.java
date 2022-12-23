@@ -3,10 +3,8 @@ package ru.kpfu.itis.general.helpers.parsers;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
-import com.sun.tools.javac.util.ArrayUtils;
 import ru.kpfu.itis.general.entities.Drawing;
 
-import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,26 +12,34 @@ public class DrawingParser {
 
     private static final Gson gson = new Gson();
 
+    public DrawingParser() {
+    }
 
     public static byte[] serializeObject(Drawing drawing) {
-        return gson.toJson(drawing).getBytes(StandardCharsets.UTF_8);
+        return TextParser.serializeMessage(gson.toJson(drawing));
     }
 
     public static Drawing deserializeObject(byte[] drawing) {
-        return gson.fromJson(new String(drawing, StandardCharsets.UTF_8), Drawing.class);
+        String text = TextParser.deserializeMessage(drawing);
+
+        return gson.fromJson(text, Drawing.class);
     }
 
     public static byte[] serializeObjects(List<Drawing> drawing) {
-        return gson.toJson(drawing).getBytes(StandardCharsets.UTF_8);
+        return TextParser.serializeMessage(gson.toJson(drawing));
     }
 
     public static List<Drawing> deserializeObjects(byte[] drawings) {
-        List<Drawing> drawingsList = new ArrayList<>();
-        JsonArray array = gson.fromJson(new String(drawings,StandardCharsets.UTF_8),JsonArray.class);
+        List<Drawing> resultDrawings = new ArrayList<>();
+        String text = TextParser.deserializeMessage(drawings);
 
-        for (JsonElement jsonElement : array){
-            drawingsList.add(gson.fromJson(jsonElement,Drawing.class));
+        JsonArray array = gson.fromJson(text, JsonArray.class);
+
+        for (JsonElement jsonElement : array) {
+            Drawing drawing = gson.fromJson(jsonElement, Drawing.class);
+            resultDrawings.add(drawing);
         }
-        return drawingsList;
+
+        return resultDrawings;
     }
 }

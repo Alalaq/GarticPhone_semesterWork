@@ -5,7 +5,9 @@ import lombok.Setter;
 import ru.kpfu.itis.protocol.Constants;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Getter
 @Setter
@@ -14,11 +16,13 @@ public class Room {
     protected boolean ifStarted;
 
     protected List<Player> players;
+    protected Map<Long, Drawing> drawings;
     protected int currentRound;
 
     public Room() {
         ifStarted = false;
         players = new ArrayList<>();
+        drawings = new HashMap<>();
         currentRound = 1;
     }
 
