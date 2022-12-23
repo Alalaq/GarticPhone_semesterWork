@@ -23,20 +23,15 @@ public abstract class AbstractServerEventListener implements ServerEventListener
     }
 
     public static ServerEventListener getEventListener(byte type) {
-        switch (type) {
-            case JOIN_ROOM:
-                return new JoinRoomListener();
-            case EXIT_ROOM:
-                return new ExitRoomListener();
-            case ENTRANCE:
-               return new EntranceListener();
-            case START_GAME:
-                return new GameStartListener();
-            case READINESS:
-                return new ReadinessListener();
-            default:
-                throw new IllegalArgumentException("Illegal type of listener");
-        }
+        return switch (type) {
+            case JOIN_ROOM -> new JoinRoomListener();
+            case EXIT_ROOM -> new ExitRoomListener();
+            case ENTRANCE -> new EntranceListener();
+            case START_GAME -> new GameStartListener();
+            case READINESS -> new ReadinessListener(false);
+           // case START_SENDING_MESSAGE -> new ReadinessListener(true);
+            default -> throw new IllegalArgumentException("Illegal type of listener");
+        };
     }
 
     @Override

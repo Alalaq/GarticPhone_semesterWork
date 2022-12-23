@@ -7,6 +7,7 @@ import ru.kpfu.itis.exceptions.IllegalMessageTypeException;
 import ru.kpfu.itis.exceptions.IllegalProtocolVersionException;
 import ru.kpfu.itis.general.entities.Player;
 import ru.kpfu.itis.general.helpers.parsers.TextParser;
+import ru.kpfu.itis.listeners.ReadinessListener;
 import ru.kpfu.itis.listeners.general.AbstractServerEventListener;
 import ru.kpfu.itis.listeners.general.ServerEventListener;
 import ru.kpfu.itis.protocol.Constants;
@@ -49,15 +50,24 @@ public class Connection implements Runnable {
                     ServerEventListener listener = AbstractServerEventListener.getEventListener(
                             message.getType());
                     listener.init(server);
-
                     if (player != null || message.getType() == Constants.ENTRANCE) {
+
+                        if (message.getType() == Constants.START_SENDING_MESSAGE) {
+                            ReadinessListener.message_sending = true;
+                            continue;
+                        }
+
+                        if (message.getType() == Constants.READINESS && ReadinessListener.message_sending) {
+                            ReadinessListener.messages_count++;
+                        }
+
                         listener.handle(this, message);
                     }
                 }
             } catch (IllegalProtocolVersionException e) {
                 message = new Message(Constants.WRONG_PROTOCOL_VERSION, e.getMessage().getBytes());
                 outputStream.writeMessage(message);
-            } catch (IllegalMessageTypeException exc){
+            } catch (IllegalMessageTypeException exc) {
                 message = new Message(Constants.ILLEGAL_MESSAGE_TYPE, exc.getMessage().getBytes());
                 outputStream.writeMessage(message);
             }

@@ -16,7 +16,7 @@ public class Room {
     protected boolean ifStarted;
 
     protected List<Player> players;
-    protected Map<Long, Drawing> drawings;
+    protected Map<Long, Byte[]> drawings;
     protected int currentRound;
 
     public Room() {
