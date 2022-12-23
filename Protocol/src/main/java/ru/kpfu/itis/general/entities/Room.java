@@ -21,7 +21,7 @@ public class Room {
     // первая - номер раунда, вторая - айди игрока
     //нарисовавшего картинку, а третья - true или false, где true означает, что это картинка была уже отправлена кому-то
     //все три части являются одной цифрой и т.к. ни раунд, ни айди не может быть двузначным числом, это работает отлично
-    protected Map<DrawingCode, Byte[]> drawings;
+    protected Map<DrawingCode, byte[]> drawings;
     protected int currentRound;
 
     public Room() {

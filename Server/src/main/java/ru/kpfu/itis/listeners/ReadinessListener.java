@@ -10,6 +10,7 @@ import ru.kpfu.itis.protocol.Constants;
 import ru.kpfu.itis.protocol.Message;
 import ru.kpfu.itis.server.Connection;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -23,7 +24,7 @@ public class ReadinessListener extends AbstractServerEventListener {
     public void handle(Connection connection, Message message) {
         Player player = connection.getPlayer();
         Room room = player.getRoom();
-        Map<DrawingCode, Byte[]> drawings = room.getDrawings();
+        Map<DrawingCode, byte[]> drawings = room.getDrawings();
 
         DrawingCode code = DrawingCode.builder()
                 .round(room.getCurrentRound())
@@ -37,7 +38,7 @@ public class ReadinessListener extends AbstractServerEventListener {
         } else {
             player.setReadiness(true);
             try {
-                drawings.put(code, ArrayUtils.toObject(message.getBody()));
+                drawings.put(code, (message.getBody()));
             } catch (NumberFormatException | JsonSyntaxException exc) {
                 System.out.println("Something went wrong");
             }
@@ -49,7 +50,7 @@ public class ReadinessListener extends AbstractServerEventListener {
 
     protected void beginRound(Room room) {
         List<Connection> connectionList = server.getAllConnections();
-        Map<DrawingCode, Byte[]> drawings = room.getDrawings();
+        Map<DrawingCode, byte[]> drawings = room.getDrawings();
         DrawingCode code;
         Message message;
 
@@ -64,8 +65,8 @@ public class ReadinessListener extends AbstractServerEventListener {
                                 .isUsed(false)
                                 .build();
                         if (drawings.containsKey(code)) {
-                            Byte[] drawingBytes = (drawings.get(code));
-                            message = new Message(Constants.NEXT_ROUND, ArrayUtils.toPrimitive(drawingBytes));
+                            byte[] drawingBytes = (drawings.get(code));
+                            message = new Message(Constants.NEXT_ROUND, drawingBytes);
                             server.sendMessage(connection, message);
                             drawings.remove(code);
 

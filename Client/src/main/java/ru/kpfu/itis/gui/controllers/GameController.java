@@ -102,7 +102,6 @@ public class GameController {
     private void changeReady() {
         ready = !ready;
         readyButton.setText(ready ? "I'm not ready :(" : "I'm ready!");
-        System.out.println(Arrays.toString(getDrawingFromCanvas()));
         connection.sendMessage(new Message(Constants.READINESS, getDrawingFromCanvas()));
     }
 

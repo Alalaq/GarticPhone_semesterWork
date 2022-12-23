@@ -7,12 +7,8 @@ import javafx.embed.swing.SwingFXUtils;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Alert;
-import javafx.scene.image.PixelFormat;
-import javafx.scene.image.WritableImage;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
-import ru.kpfu.itis.general.entities.Drawing;
-import ru.kpfu.itis.general.helpers.parsers.DrawingParser;
 import ru.kpfu.itis.protocol.Constants;
 import ru.kpfu.itis.protocol.Message;
 import ru.kpfu.itis.protocol.MessageInputStream;
@@ -30,6 +26,7 @@ public class GameMessageListenerService extends Service<Void> {
     private Stage stage;
     private Canvas drawCanvas;
     private GraphicsContext gc;
+    private Connection connection;
 
     public GameMessageListenerService(Connection connection, Stage stage, Canvas drawCanvas) {
         this.socket = connection.getSocket();
@@ -37,6 +34,7 @@ public class GameMessageListenerService extends Service<Void> {
         this.stage = stage;
         this.drawCanvas = drawCanvas;
         gc = drawCanvas.getGraphicsContext2D();
+        this.connection = connection;
     }
 
     @Override
@@ -50,7 +48,7 @@ public class GameMessageListenerService extends Service<Void> {
                         case Constants.NEXT_ROUND -> Platform.runLater(() -> {
                             clearCanvas();
                             new Alert(Alert.AlertType.INFORMATION, "Новый раунд, Ура !!!").show();
-                            drawNewImage(message.getBody());
+//                            drawNewImage(message.getBody());
                         });
                         case Constants.GAME_ENDED -> {
                             System.out.println("END"); //TODO : show end

@@ -59,10 +59,13 @@ public class LobbyMessageListenerService extends Service<Void> {
                             player.setIsAdmin(true);
                             startGameButton.setVisible(true);
                         });
-                        case Constants.GAME_STARTED -> Platform.runLater(() -> {
-                            stage.setScene(ScenesManager.getGameScene(connection, stage, player));
+                        case Constants.GAME_STARTED -> {
                             flag = false;
-                        });
+                            Platform.runLater(() -> {
+                                stage.setScene(ScenesManager.getGameScene(connection, stage, player));
+                                this.cancel();
+                            });
+                        }
                         case Constants.GAME_START_DENIED -> Platform.runLater(() -> {
                             new Alert(Alert.AlertType.ERROR, TextParser.deserializeMessage(message.getBody())).show();
                         });
