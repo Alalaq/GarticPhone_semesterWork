@@ -7,8 +7,10 @@ import javafx.embed.swing.SwingFXUtils;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
+import ru.kpfu.itis.gui.controllers.GameController;
 import ru.kpfu.itis.protocol.Constants;
 import ru.kpfu.itis.protocol.Message;
 import ru.kpfu.itis.protocol.MessageInputStream;
@@ -27,14 +29,17 @@ public class GameMessageListenerService extends Service<Void> {
     private Canvas drawCanvas;
     private GraphicsContext gc;
     private Connection connection;
-
-    public GameMessageListenerService(Connection connection, Stage stage, Canvas drawCanvas) {
+    private Button button;
+    private GameController gameController;
+    public GameMessageListenerService(Connection connection, Stage stage, Canvas drawCanvas, Button button, GameController gameController) {
         this.socket = connection.getSocket();
         this.in = connection.getInputStream();
         this.stage = stage;
         this.drawCanvas = drawCanvas;
         gc = drawCanvas.getGraphicsContext2D();
         this.connection = connection;
+        this.button = button;
+        this.gameController = gameController;
     }
 
     @Override
@@ -47,8 +52,10 @@ public class GameMessageListenerService extends Service<Void> {
                     switch (message.getType()) {
                         case Constants.NEXT_ROUND -> Platform.runLater(() -> {
                             clearCanvas();
+                            button.setText("I'm ready!");
+                            gameController.setReady(false);
                             new Alert(Alert.AlertType.INFORMATION, "Новый раунд, Ура !!!").show();
-//                            drawNewImage(message.getBody());
+                            drawNewImage(message.getBody());
                         });
                         case Constants.GAME_ENDED -> {
                             System.out.println("END"); //TODO : show end

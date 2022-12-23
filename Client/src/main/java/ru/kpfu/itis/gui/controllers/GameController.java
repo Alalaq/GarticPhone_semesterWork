@@ -95,7 +95,7 @@ public class GameController {
 
     public void setConnection(Connection connection) {
         this.connection = connection;
-        new GameMessageListenerService(connection, stage, drawCanvas).start();
+        new GameMessageListenerService(connection, stage, drawCanvas,readyButton,this).start();
     }
 
     @FXML
@@ -103,6 +103,9 @@ public class GameController {
         ready = !ready;
         readyButton.setText(ready ? "I'm not ready :(" : "I'm ready!");
         connection.sendMessage(new Message(Constants.READINESS, getDrawingFromCanvas()));
+    }
+    public void setReady(boolean ready){
+        this.ready = ready;
     }
 
     private byte[] getDrawingFromCanvas() {
