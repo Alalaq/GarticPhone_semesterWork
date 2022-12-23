@@ -27,7 +27,7 @@ public class LobbyMessageListenerService extends Service<Void> {
     private Button startGameButton;
     private Connection connection;
     private Player player;
-
+    private boolean flag = true;
 
     public LobbyMessageListenerService(Stage stage, ListView<String> userList, Connection connection, Button startGameButton, Player player) {
         this.socket = connection.getSocket();
@@ -44,7 +44,7 @@ public class LobbyMessageListenerService extends Service<Void> {
         return new Task<>() {
             @Override
             protected Void call() throws Exception {
-                while (socket.isConnected()) {
+                while (socket.isConnected() && flag) {
                     Message message = in.readMessage();
                     switch (message.getType()) {
                         case Constants.USERS_CHANGED -> {
@@ -62,6 +62,7 @@ public class LobbyMessageListenerService extends Service<Void> {
                         });
                         case Constants.GAME_STARTED -> Platform.runLater(()->{
                             stage.setScene(ScenesManager.getGameScene(connection,stage,player));
+                            flag = false;
                         });
                         case Constants.GAME_START_DENIED -> Platform.runLater(() ->{
                             new Alert(Alert.AlertType.ERROR, TextParser.deserializeMessage(message.getBody())).show();

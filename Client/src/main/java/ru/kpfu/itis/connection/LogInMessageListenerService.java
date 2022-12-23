@@ -61,7 +61,6 @@ public class LogInMessageListenerService extends Service<Void> {
                             Platform.runLater(() -> {
                                 errorLabel.setText(new String(message.getBody(), StandardCharsets.UTF_8));
                                 errorLabel.setVisible(true);
-                                System.out.println("done");
                             });
                         }
                     }

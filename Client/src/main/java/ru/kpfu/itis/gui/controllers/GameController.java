@@ -20,6 +20,9 @@ import ru.kpfu.itis.general.helpers.parsers.DrawingParser;
 import ru.kpfu.itis.protocol.Constants;
 import ru.kpfu.itis.protocol.Message;
 
+import java.math.BigInteger;
+import java.util.Arrays;
+
 public class GameController {
     private final Color[] colors = {Color.RED, Color.DARKORANGE, Color.YELLOW, Color.GREEN, Color.AQUA, Color.BLUE, Color.BLUEVIOLET, Color.BLACK, Color.WHITE, Color.BROWN};
 
@@ -97,14 +100,23 @@ public class GameController {
     public void changeReady() {
         ready = !ready;
         readyButton.setText(ready ? "I'm not ready :(" : "I'm ready!");
-        connection.sendMessage(new Message(Constants.READINESS, DrawingParser.serializeObject(getDrawingFromCanvas())));
-
+        if (!ready) {
+            connection.sendMessage(new Message(Constants.READINESS));
+        } else {
+            connection.sendMessage(new Message(Constants.START_SENDING_MESSAGE));
+            byte[] image = getDrawingFromCanvas().getImage();
+            for (int i = 0; i < 1000; i++) {
+//                connection.sendMessage(new Message(Constants.READINESS, Arrays.copyOfRange(image, i * image.length / 1000, (i + 1) * image.length / 10 - 1)));
+                System.out.println(i);
+                connection.sendMessage(new Message(Constants.READINESS, new byte[(int) (drawCanvas.getWidth() * drawCanvas.getHeight() * 4/1000)]));
+            }
+        }
     }
 
     public Drawing getDrawingFromCanvas(){
         WritableImage image = new WritableImage((int) drawCanvas.getWidth(), (int) drawCanvas.getHeight());
         drawCanvas.snapshot(null, image);
-        byte[] buffer = new byte[(int) (drawCanvas.getWidth() * drawCanvas.getHeight() * 4)];
+        byte[] buffer = new byte[(int) (drawCanvas.getWidth() * drawCanvas.getHeight() * 4 )];
         image.getPixelReader().getPixels(0,
                 0,
                 (int) drawCanvas.getWidth(),

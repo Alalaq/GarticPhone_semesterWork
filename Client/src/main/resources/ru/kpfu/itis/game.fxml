@@ -5,8 +5,8 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="900.0" prefWidth="1600.0" xmlns="http://javafx.com/javafx/11.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ru.kpfu.itis.gui.controllers.GameController">
-    <Canvas fx:id="drawCanvas" height="900.0" nodeOrientation="INHERIT" style="-fx-background-color: white" width="1600.0" AnchorPane.bottomAnchor="428.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="839.0" AnchorPane.topAnchor="40.0" />
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/11.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ru.kpfu.itis.gui.controllers.GameController">
+    <Canvas fx:id="drawCanvas" height="600.0" nodeOrientation="INHERIT" style="-fx-background-color: white" width="800.0" AnchorPane.bottomAnchor="428.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="839.0" AnchorPane.topAnchor="40.0" />
     <HBox alignment="CENTER" maxHeight="40.0" prefHeight="40.0" prefWidth="200.0" style="-fx-border-color: black" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0">
         <Label text="Draw your shape" />
         <Button fx:id="readyButton" onAction="#changeReady" text="I'm ready!">
