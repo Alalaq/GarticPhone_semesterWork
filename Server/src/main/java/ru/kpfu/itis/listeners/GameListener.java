@@ -9,11 +9,12 @@ import ru.kpfu.itis.protocol.Constants;
 import ru.kpfu.itis.protocol.Message;
 import ru.kpfu.itis.server.Connection;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-public class ReadinessListener extends AbstractServerEventListener {
-    public ReadinessListener() {
+public class GameListener extends AbstractServerEventListener {
+    public GameListener() {
         super(Constants.READINESS);
     }
 
@@ -26,7 +27,7 @@ public class ReadinessListener extends AbstractServerEventListener {
         DrawingCode code = DrawingCode.builder()
                 .round(room.getCurrentRound())
                 .isUsed(false)
-                .playerId(player.getId())
+                .authorId(player.getId())
                 .build();
 
         if (player.getReadiness()) {
@@ -51,36 +52,47 @@ public class ReadinessListener extends AbstractServerEventListener {
         DrawingCode code;
         Message message;
 
+        int currentRound = room.getCurrentRound();
+
+        int playersAmount = room.getPlayers().size();
+
         for (Connection connection : connectionList) {
             Player player = connection.getPlayer();
             if (player.getRoom().equals(room)) {
-                    if (player.getReadiness()) {
-                        if (!player.getId().equals((long) room.getPlayers().size() - 1)) {
-                            code = DrawingCode.builder()
-                                    .round(room.getCurrentRound())
-                                    .playerId(player.getId() + 1L)
-                                    .isUsed(false)
-                                    .build();
-                        } else {
-                            code = DrawingCode.builder()
-                                    .round(room.getCurrentRound())
-                                    .playerId(0L)
-                                    .isUsed(false)
-                                    .build();
-                        }
-                        if (drawings.containsKey(code)) {
-                            byte[] drawingBytes = (drawings.get(code));
-                            message = new Message(Constants.NEXT_ROUND, drawingBytes);
-                            server.sendMessage(connection, message);
-                            drawings.remove(code);
+                if (player.getReadiness()) {
+                    Long id = player.getId();
+                    long idDrawingFrom;
 
-                            code.setUsed(true);
-                            drawings.put(code, drawingBytes);
-                            player.setReadiness(false);
-                        }
+                    if (id + currentRound >= playersAmount) {
+                        idDrawingFrom = id + currentRound - playersAmount;
+                    } else {
+                        idDrawingFrom = id + currentRound;
                     }
+
+                    code = DrawingCode.builder()
+                            .round(1)
+                            .authorId(idDrawingFrom)
+                            .isUsed(false)
+                            .build();
+
+                    if (drawings.containsKey(code)) {
+                        byte[] drawingBytes = (drawings.get(code));
+                        message = new Message(Constants.NEXT_ROUND, drawingBytes);
+                        server.sendMessage(connection, message);
+                        drawings.remove(code);
+
+                        code.setUsed(true);
+                        drawings.put(code, drawingBytes);
+                        player.setReadiness(false);
+                    }
+                }
             }
         }
-        room.setCurrentRound(room.getCurrentRound() + 1);
+        if (currentRound == playersAmount - 1) {
+            message = new Message(Constants.GAME_ENDED);
+            server.sendMulticastMessage(room, message);
+        } else {
+            room.setCurrentRound(currentRound + 1);
+        }
     }
 }
