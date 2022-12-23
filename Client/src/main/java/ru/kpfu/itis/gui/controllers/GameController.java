@@ -106,10 +106,10 @@ public class GameController {
     public void changeReady() {
         ready = !ready;
         readyButton.setText(ready ? "I'm not ready :(" : "I'm ready!");
-        connection.sendMessage(new Message(Constants.READINESS,getDrawingFromCanvas()));
+        connection.sendMessage(new Message(Constants.READINESS, getDrawingFromCanvas()));
     }
 
-    public byte[] getDrawingFromCanvas(){
+    public byte[] getDrawingFromCanvas() {
         WritableImage image = new WritableImage((int) drawCanvas.getWidth(), (int) drawCanvas.getHeight());
         drawCanvas.snapshot(null, image);
         BufferedImage bufferedImage = SwingFXUtils.fromFXImage(image, null);

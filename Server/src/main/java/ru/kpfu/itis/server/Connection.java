@@ -51,16 +51,6 @@ public class Connection implements Runnable {
                             message.getType());
                     listener.init(server);
                     if (player != null || message.getType() == Constants.ENTRANCE) {
-
-                        if (message.getType() == Constants.START_SENDING_MESSAGE) {
-                            ReadinessListener.message_sending = true;
-                            continue;
-                        }
-
-                        if (message.getType() == Constants.READINESS && ReadinessListener.message_sending) {
-                            ReadinessListener.messages_count++;
-                        }
-
                         listener.handle(this, message);
                     }
                 }
