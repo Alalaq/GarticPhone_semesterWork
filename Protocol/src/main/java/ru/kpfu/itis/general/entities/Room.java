@@ -2,6 +2,7 @@ package ru.kpfu.itis.general.entities;
 
 import lombok.Getter;
 import lombok.Setter;
+import ru.kpfu.itis.general.helpers.general.DrawingCode;
 import ru.kpfu.itis.protocol.Constants;
 
 import java.util.ArrayList;
@@ -16,7 +17,11 @@ public class Room {
     protected boolean ifStarted;
 
     protected List<Player> players;
-    protected Map<Long, Byte[]> drawings;
+    //Логика шикарная: байты - картинка, а DrawingCode состоит из трёх частей:
+    // первая - номер раунда, вторая - айди игрока
+    //нарисовавшего картинку, а третья - true или false, где true означает, что это картинка была уже отправлена кому-то
+    //все три части являются одной цифрой и т.к. ни раунд, ни айди не может быть двузначным числом, это работает отлично
+    protected Map<DrawingCode, Byte[]> drawings;
     protected int currentRound;
 
     public Room() {
@@ -44,7 +49,7 @@ public class Room {
     }
 
     public boolean isAllReady() {
-        if (players.size() != Constants.MAXIMUM_PLAYERS) {
+        if (players.size() < Constants.MIN_PLAYERS) {
             return false;
         }
 
