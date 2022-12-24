@@ -88,16 +88,19 @@ public class GameListener extends AbstractServerEventListener {
                         //тут индекс - раунд, на котором получена картинка, айди - чел, который получил её
                         room.getDrawingsSentTo().get(idDrawingFrom).add(id);
                         System.out.println(room.getDrawingsSentTo().get(idDrawingFrom));
-                        drawings.remove(code);
 
-                        code.setUsed(true);
-                        drawings.put(code, drawingBytes);
+                        if (currentRound == playersAmount - 1) {
+                            drawings.remove(code);
+
+                            code.setUsed(true);
+                            drawings.put(code, drawingBytes);
+                        }
                         player.setReadiness(false);
                     }
                 }
             }
         }
-        if (currentRound == playersAmount - 1) {
+        if (currentRound == playersAmount) {
             message = new Message(Constants.GAME_ENDED);
             server.sendMulticastMessage(room, message);
             message = new Message(Constants.USERS_CHANGED, (room.getPlayersNicknames().toString().getBytes(StandardCharsets.UTF_8)));
