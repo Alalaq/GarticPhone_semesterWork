@@ -14,6 +14,7 @@ import javafx.scene.layout.VBox;
 import ru.kpfu.itis.connection.Connection;
 import ru.kpfu.itis.connection.ResultMessageListenerService;
 import ru.kpfu.itis.general.entities.Drawing;
+import ru.kpfu.itis.general.entities.Player;
 import ru.kpfu.itis.protocol.Constants;
 import ru.kpfu.itis.protocol.Message;
 
@@ -33,6 +34,7 @@ public class ResultController implements Initializable {
     public ScrollPane scrollPane;
     public VBox vbox;
     public Connection connection;
+    private Player player;
 
 
     @Override
@@ -58,8 +60,9 @@ public class ResultController implements Initializable {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        connection.sendMessage(new Message(Constants.REQUIRE_NEW_BRANCH));
-        System.out.println("sent");
+        if (player.getIsAdmin()) {
+            connection.sendMessage(new Message(Constants.REQUIRE_NEW_BRANCH));
+        }
     }
 
     public void updateUsers(String[] users) {
@@ -78,15 +81,15 @@ public class ResultController implements Initializable {
 
         for (Drawing drawing : images) {
             try {
-                Label label = new Label("Author:" + drawing.getAuthor());
+                Label label = new Label("Author:" + drawing.getAuthor().getNickname());
 
                 BufferedImage image = ImageIO.read(new ByteArrayInputStream(drawing.getImage()));
                 image = resize(image, 150, 150);
                 ImageView imageView = new ImageView(SwingFXUtils.toFXImage(image, null));
 
-                Button button = new Button(drawing.getAuthor());
+                Button button = new Button(drawing.getAuthor().getNickname());
                 button.setOnMouseClicked(event -> {
-                    connection.sendMessage(new Message(Constants.VOTED, drawing.getAuthor().getBytes(StandardCharsets.UTF_8)));
+                    connection.sendMessage(new Message(Constants.VOTED, drawing.getAuthor().getNickname().getBytes(StandardCharsets.UTF_8)));
                 });
 
                 vbox.getChildren().add(label);
@@ -109,10 +112,16 @@ public class ResultController implements Initializable {
             e.printStackTrace();
         }
         alert.close();
-        connection.sendMessage(new Message(Constants.REQUIRE_NEW_BRANCH));
+        if (player.getIsAdmin()) {
+            connection.sendMessage(new Message(Constants.REQUIRE_NEW_BRANCH));
+        }
     }
 
     public Connection getConnection() {
         return connection;
+    }
+
+    public void setPlayer(Player player) {
+        this.player = player;
     }
 }

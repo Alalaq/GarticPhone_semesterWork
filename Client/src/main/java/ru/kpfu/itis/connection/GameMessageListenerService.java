@@ -10,6 +10,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
+import ru.kpfu.itis.general.entities.Player;
 import ru.kpfu.itis.gui.controllers.GameController;
 import ru.kpfu.itis.gui.helpers.ScenesManager;
 import ru.kpfu.itis.protocol.Constants;
@@ -33,8 +34,9 @@ public class GameMessageListenerService extends Service<Void> {
     private Button button;
     private GameController gameController;
     private boolean flag = true;
+    private Player player;
 
-    public GameMessageListenerService(Connection connection, Stage stage, Canvas drawCanvas, Button button, GameController gameController) {
+    public GameMessageListenerService(Connection connection, Stage stage, Canvas drawCanvas, Button button, GameController gameController, Player player) {
         this.socket = connection.getSocket();
         this.in = connection.getInputStream();
         this.stage = stage;
@@ -43,6 +45,7 @@ public class GameMessageListenerService extends Service<Void> {
         this.connection = connection;
         this.button = button;
         this.gameController = gameController;
+        this.player = player;
     }
 
     @Override
@@ -63,7 +66,7 @@ public class GameMessageListenerService extends Service<Void> {
                         case Constants.GAME_ENDED -> {
                             flag = false;
                             Platform.runLater(()->{
-                                stage.setScene(ScenesManager.getResultScene(connection,stage));
+                                stage.setScene(ScenesManager.getResultScene(connection,stage,player));
                             });
                         }
                     }

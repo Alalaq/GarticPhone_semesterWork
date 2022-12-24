@@ -57,7 +57,7 @@ public class ScenesManager {
         controller.setConnection(connection);
         return new Scene(root);
     }
-    public static Scene getResultScene(Connection connection, Stage stage) {
+    public static Scene getResultScene(Connection connection, Stage stage, Player player) {
         loader = new FXMLLoader(ClientApp.class.getResource("result.fxml"));
         try {
             root = loader.load();
@@ -65,6 +65,7 @@ public class ScenesManager {
             e.printStackTrace();
         }
         ResultController controller = loader.getController();
+        controller.setPlayer(player);
         controller.setConnection(connection);
         return new Scene(root);
     }
