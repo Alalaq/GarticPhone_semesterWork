@@ -24,9 +24,9 @@ public class ResultMessageListenerService extends Service<Void> {
     private ResultController resultController;
     private Connection connection;
 
-    public ResultMessageListenerService(ResultController resultController) {
+    public ResultMessageListenerService(ResultController resultController, Connection connection) {
         this.resultController = resultController;
-        this.connection = resultController.getConnection();
+        this.connection = connection;
         this.socket = connection.getSocket();;
         this.in = connection.getInputStream();
     }
@@ -56,6 +56,9 @@ public class ResultMessageListenerService extends Service<Void> {
                             Platform.runLater(()->{
                                 resultController.showUserWinnerAlert(name);
                             });
+                        }
+                        case Constants.GAME_ENDED -> {
+                            System.out.println("END");
                         }
                     }
                 }

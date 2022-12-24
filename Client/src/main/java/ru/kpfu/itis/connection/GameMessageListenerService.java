@@ -32,6 +32,8 @@ public class GameMessageListenerService extends Service<Void> {
     private Connection connection;
     private Button button;
     private GameController gameController;
+    private boolean flag = true;
+
     public GameMessageListenerService(Connection connection, Stage stage, Canvas drawCanvas, Button button, GameController gameController) {
         this.socket = connection.getSocket();
         this.in = connection.getInputStream();
@@ -48,7 +50,7 @@ public class GameMessageListenerService extends Service<Void> {
         return new Task<Void>() {
             @Override
             protected Void call() throws Exception {
-                while (socket.isConnected()) {
+                while (socket.isConnected() && flag) {
                     Message message = in.readMessage();
                     switch (message.getType()) {
                         case Constants.NEXT_ROUND -> Platform.runLater(() -> {
@@ -59,7 +61,7 @@ public class GameMessageListenerService extends Service<Void> {
                             drawNewImage(message.getBody());
                         });
                         case Constants.GAME_ENDED -> {
-                            System.out.println("end");
+                            flag = false;
                             Platform.runLater(()->{
                                 stage.setScene(ScenesManager.getResultScene(connection,stage));
                             });

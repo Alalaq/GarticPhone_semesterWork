@@ -51,8 +51,14 @@ public class ResultController implements Initializable {
 
     public void setConnection(Connection connection) {
         this.connection = connection;
-        new ResultMessageListenerService(this).start();
+        new ResultMessageListenerService(this,connection).start();
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         connection.sendMessage(new Message(Constants.REQUIRE_NEW_BRANCH));
+        System.out.println("sended");
     }
 
     public void updateUsers(String[] users) {
@@ -91,7 +97,6 @@ public class ResultController implements Initializable {
             }
         }
         vbox.getChildren().add(flowPane);
-        connection.sendMessage(new Message(Constants.REQUIRE_NEW_BRANCH));
     }
 
     public void showUserWinnerAlert(String name) {
@@ -103,6 +108,7 @@ public class ResultController implements Initializable {
             e.printStackTrace();
         }
         alert.close();
+        connection.sendMessage(new Message(Constants.REQUIRE_NEW_BRANCH));
     }
 
     public Connection getConnection() {
