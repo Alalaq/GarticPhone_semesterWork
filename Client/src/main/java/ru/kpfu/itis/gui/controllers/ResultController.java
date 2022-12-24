@@ -15,6 +15,7 @@ import ru.kpfu.itis.connection.Connection;
 import ru.kpfu.itis.connection.ResultMessageListenerService;
 import ru.kpfu.itis.general.entities.Drawing;
 import ru.kpfu.itis.general.entities.Player;
+import ru.kpfu.itis.general.helpers.parsers.PlayerParser;
 import ru.kpfu.itis.protocol.Constants;
 import ru.kpfu.itis.protocol.Message;
 
@@ -89,7 +90,7 @@ public class ResultController implements Initializable {
 
                 Button button = new Button(drawing.getAuthor().getNickname());
                 button.setOnMouseClicked(event -> {
-                    connection.sendMessage(new Message(Constants.VOTED, drawing.getAuthor().getNickname().getBytes(StandardCharsets.UTF_8)));
+                    connection.sendMessage(new Message(Constants.VOTED, PlayerParser.serializeObject(player)));
                 });
 
                 vbox.getChildren().add(label);

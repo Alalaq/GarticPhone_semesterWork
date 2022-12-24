@@ -16,10 +16,8 @@ import java.util.List;
 import java.util.Map;
 
 public class GameListener extends AbstractServerEventListener {
-    protected static Map<Long, List<Long>> drawingsSentTo;
     public GameListener() {
         super(Constants.READINESS);
-        drawingsSentTo = new HashMap<>();
     }
 
     @Override
@@ -79,9 +77,8 @@ public class GameListener extends AbstractServerEventListener {
                             .isUsed(false)
                             .build();
 
-                    if (!drawingsSentTo.containsKey(idDrawingFrom)){
-                        List<Long> list = new ArrayList<>(20);
-                        drawingsSentTo.put(idDrawingFrom, list);
+                    if (!room.getDrawingsSentTo().containsKey(idDrawingFrom)){
+                        room.getDrawingsSentTo().put(idDrawingFrom, new ArrayList<>());
                     }
 
                     if (drawings.containsKey(code)) {
@@ -89,7 +86,8 @@ public class GameListener extends AbstractServerEventListener {
                         message = new Message(Constants.NEXT_ROUND, drawingBytes);
                         server.sendMessage(connection, message);
                         //тут индекс - раунд, на котором получена картинка, айди - чел, который получил её
-                        drawingsSentTo.get(idDrawingFrom).add(id);
+                        room.getDrawingsSentTo().get(idDrawingFrom).add(id);
+                        System.out.println(room.getDrawingsSentTo().get(idDrawingFrom));
                         drawings.remove(code);
 
                         code.setUsed(true);

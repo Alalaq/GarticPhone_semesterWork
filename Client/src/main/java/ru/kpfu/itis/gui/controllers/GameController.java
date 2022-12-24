@@ -95,7 +95,7 @@ public class GameController {
 
     public void setConnection(Connection connection) {
         this.connection = connection;
-        new GameMessageListenerService(connection, stage, drawCanvas,readyButton,this).start();
+        new GameMessageListenerService(connection, stage, drawCanvas,readyButton,this, player).start();
     }
 
     @FXML

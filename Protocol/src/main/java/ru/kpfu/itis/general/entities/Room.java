@@ -22,6 +22,7 @@ public class Room {
     //нарисовавшего картинку, а третья - true или false, где true означает, что это картинка была уже отправлена кому-то
     //все три части являются одной цифрой и т.к. ни раунд, ни айди не может быть двузначным числом, это работает отлично
     protected Map<DrawingCode, byte[]> drawings;
+    protected Map<Long, List<Long>> drawingsSentTo;
 
     protected int currentRound;
 
@@ -30,6 +31,7 @@ public class Room {
         players = new ArrayList<>();
         drawings = new HashMap<>();
         currentRound = 1;
+        drawingsSentTo = new HashMap<>();
     }
 
     public boolean addPlayer(Player player) {
