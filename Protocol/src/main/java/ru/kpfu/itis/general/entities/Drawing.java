@@ -12,5 +12,6 @@ import lombok.NoArgsConstructor;
 @Builder
 public class Drawing {
     protected byte[] image;
-    protected Player author; //maybe just set String for this one???
+    protected String authorName;
+    protected Long authorId;
 }
