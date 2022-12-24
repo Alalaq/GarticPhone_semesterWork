@@ -19,7 +19,6 @@ public class ExitRoomListener extends AbstractServerEventListener {
     public void handle(Connection connection, Message message) {
         Player player = connection.getPlayer();
         Room playerRoom = player.getRoom();
-        Server server = connection.getServer();
 
         playerRoom.deletePlayer(player);
         player.exitRoom();

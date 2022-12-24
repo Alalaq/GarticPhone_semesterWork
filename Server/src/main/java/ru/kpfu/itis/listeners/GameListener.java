@@ -10,12 +10,15 @@ import ru.kpfu.itis.protocol.Message;
 import ru.kpfu.itis.server.Connection;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 public class GameListener extends AbstractServerEventListener {
+    protected static Map<Long, List<Long>> drawingsSentTo;
     public GameListener() {
         super(Constants.READINESS);
+        drawingsSentTo = new HashMap<>();
     }
 
     @Override
@@ -27,7 +30,7 @@ public class GameListener extends AbstractServerEventListener {
         DrawingCode code = DrawingCode.builder()
                 .round(room.getCurrentRound())
                 .isUsed(false)
-                .authorId(player.getId())
+                .playerId(player.getId())
                 .build();
 
         if (player.getReadiness()) {
@@ -71,14 +74,21 @@ public class GameListener extends AbstractServerEventListener {
 
                     code = DrawingCode.builder()
                             .round(1)
-                            .authorId(idDrawingFrom)
+                            .playerId(idDrawingFrom)
                             .isUsed(false)
                             .build();
+
+                    if (!drawingsSentTo.containsKey(idDrawingFrom)){
+                        List<Long> list = new ArrayList<>(20);
+                        drawingsSentTo.put(idDrawingFrom, list);
+                    }
 
                     if (drawings.containsKey(code)) {
                         byte[] drawingBytes = (drawings.get(code));
                         message = new Message(Constants.NEXT_ROUND, drawingBytes);
                         server.sendMessage(connection, message);
+                        //тут индекс - раунд, на котором получена картинка, айди - чел, который получил её
+                        drawingsSentTo.get(idDrawingFrom).add(id);
                         drawings.remove(code);
 
                         code.setUsed(true);

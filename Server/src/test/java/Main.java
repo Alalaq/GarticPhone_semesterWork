@@ -1,31 +1,32 @@
+import ru.kpfu.itis.listeners.GameListener;
 import ru.kpfu.itis.protocol.Constants;
 import ru.kpfu.itis.protocol.Message;
 import ru.kpfu.itis.protocol.MessageOutputStream;
 
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.io.ObjectOutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Main {
     public static void main(String[] args) throws Exception{
-//        String userName = "huinya";
-//        Connection connection = new Connection();
-//     int
-
         try {
-            // ну типо сервер работает, надо чтобы где-то вайл тру был чтобы сервер не падал понял
-            ServerSocket server = new ServerSocket(8070);
-            while (true){
-                Socket con = server.accept();
-                Thread.sleep(1000);
-                MessageOutputStream out = new MessageOutputStream(con.getOutputStream());
-                new MessageOutputStream(con.getOutputStream()).writeMessage(new Message(Constants.ALLOW_JOIN));
-                new MessageOutputStream(con.getOutputStream()).writeMessage(new Message(Constants.USERS_CHANGED,"213,123,321".getBytes(StandardCharsets.UTF_8)));
-                out.writeMessage(new Message(Constants.GIVE_ADMIN_PERMISSION));
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
+            List<Long> list = new ArrayList<>();
+            list.add(1L);
+            list.add(2L);
+            list.add(3L);
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            ObjectOutputStream out = new ObjectOutputStream(baos);
+
+            out.writeObject(list);
+
+            Message branchSent = new Message(Constants.SENDED_ONE_GAME_BRANCH, baos.toByteArray());
+
+        } catch (IOException ignored) {
         }
     }
 }

@@ -16,8 +16,8 @@ public class EntranceListener extends AbstractServerEventListener {
     @Override
     public void handle(Connection connection, Message message) {
         String name = TextParser.deserializeMessage(message.getBody()).substring(1);
-        Server server = connection.getServer();
         Message newMessage;
+
         Player player = Player.builder()
                 .id(connection.getId())
                 .status(false)

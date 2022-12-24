@@ -19,7 +19,6 @@ public class JoinRoomListener extends AbstractServerEventListener {
 
     @Override
     public void handle(Connection connection, Message message) {
-        Server server = connection.getServer();
         Room joinedRoom = server.getRoom();
         Player player = connection.getPlayer();
         String isJoinAllowed = "";

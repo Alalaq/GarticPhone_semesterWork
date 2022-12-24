@@ -29,6 +29,7 @@ public abstract class AbstractServerEventListener implements ServerEventListener
             case ENTRANCE -> new EntranceListener();
             case START_GAME -> new GameStartListener();
             case READINESS -> new GameListener();
+            case REQUIRE_NEW_BRANCH -> new ResultListener();
             default -> throw new IllegalArgumentException("Illegal type of listener");
         };
     }
