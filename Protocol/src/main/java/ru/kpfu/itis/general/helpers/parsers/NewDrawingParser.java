@@ -19,7 +19,7 @@ public class NewDrawingParser {
     public NewDrawingParser() {
     }
 
-    public static Byte[] serializeObjects(List<Drawing> drawings){
+    public static byte[] serializeObjects(List<Drawing> drawings){
         List<Byte> list = new ArrayList<>();
         list.add((byte) drawings.size());
         for (int i = 0; i < drawings.size();i++){
@@ -28,7 +28,11 @@ public class NewDrawingParser {
                 list.add(by);
             }
         }
-        return list.toArray(new Byte[0]);
+        byte[] bytes = new byte[list.size()];
+        for (int i =0; i < list.size();i++){
+            bytes[i] = list.get(i);
+        }
+        return bytes;
     }
 
     public static List<Drawing> deserializeObjects(byte[] drawings){
@@ -44,7 +48,7 @@ public class NewDrawingParser {
         return drawingsList;
     }
 
-    public static Byte[] serializeObject(Drawing drawing) {
+    public static byte[] serializeObject(Drawing drawing) {
         List<Byte> list = new ArrayList<>();
         //image
         list.add((byte) drawing.getImage().length);
@@ -62,7 +66,11 @@ public class NewDrawingParser {
                 for (Byte bit : id) {
             list.add(bit);
         }
-        return list.toArray(new Byte[0]);
+        byte[] bytes = new byte[list.size()];
+        for (int i =0; i < list.size();i++){
+            bytes[i] = list.get(i);
+        }
+        return bytes;
     }
 
     public static Drawing deserializeObject(byte[] drawing) {
