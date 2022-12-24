@@ -9,7 +9,7 @@ import ru.kpfu.itis.protocol.Message;
 import ru.kpfu.itis.server.Connection;
 
 public class VoteListener extends AbstractServerEventListener {
-    private static int voteCount = 0;
+    private static int voteCount = 1;
     public VoteListener(){
         super(Constants.VOTED);
     }
@@ -18,7 +18,6 @@ public class VoteListener extends AbstractServerEventListener {
     public void handle(Connection connection, Message message) {
         Player player = connection.getPlayer();
         Room room = player.getRoom();
-        System.out.println(voteCount);
         if (voteCount < room.getPlayers().size()) {
             System.out.println(voteCount);
             if (!player.getStatus()) {
@@ -29,10 +28,16 @@ public class VoteListener extends AbstractServerEventListener {
             player.setVote(PlayerParser.deserializeObject(message.getBody()));
 
         } else {
-            voteCount = 0;
-            player.setStatus(false);
+            voteCount = 1;
+            setStatusesFalse(room);
             Message voteForBranchIsOver = new Message(Constants.BRANCH_VOTE_OVER);
             server.sendMessage(connection, voteForBranchIsOver);
+        }
+    }
+
+    private void setStatusesFalse(Room room){
+        for (Player player : room.getPlayers()){
+            player.setStatus(false);
         }
     }
 }

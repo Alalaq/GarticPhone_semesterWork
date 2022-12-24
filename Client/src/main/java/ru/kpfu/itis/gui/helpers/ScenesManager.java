@@ -59,6 +59,7 @@ public class ScenesManager {
     }
     public static Scene getResultScene(Connection connection, Stage stage, Player player) {
         loader = new FXMLLoader(ClientApp.class.getResource("result.fxml"));
+        stage.setResizable(true);
         try {
             root = loader.load();
         } catch (IOException e) {
