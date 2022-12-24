@@ -5,6 +5,7 @@ import javafx.fxml.FXML;
 import javafx.geometry.Insets;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.image.WritableImage;
 import javafx.scene.input.MouseEvent;
@@ -16,11 +17,13 @@ import javafx.stage.Stage;
 import ru.kpfu.itis.connection.Connection;
 import ru.kpfu.itis.connection.GameMessageListenerService;
 import ru.kpfu.itis.general.entities.Player;
+import ru.kpfu.itis.gui.helpers.ScenesManager;
 import ru.kpfu.itis.protocol.Constants;
 import ru.kpfu.itis.protocol.Message;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
+import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.Arrays;
@@ -95,7 +98,7 @@ public class GameController {
 
     public void setConnection(Connection connection) {
         this.connection = connection;
-        new GameMessageListenerService(connection, stage, drawCanvas,readyButton,this, player).start();
+        new GameMessageListenerService(connection,this).start();
     }
 
     @FXML
@@ -121,8 +124,33 @@ public class GameController {
         }
     }
 
-
+    public void newRound(byte[] drawing){
+        clearCanvas();
+        readyButton.setText("I'm ready!");
+        ready = false;
+        new Alert(Alert.AlertType.INFORMATION, "Новый раунд, Ура !!!").show();
+        drawNewImage(drawing);
+    }
     public void setPlayer(Player player) {
         this.player = player;
+    }
+
+    public void gameEnded(){
+        stage.setScene(ScenesManager.getResultScene(connection,stage,player));
+    }
+
+    private void drawNewImage(byte[] drawing) {
+        try {
+            BufferedImage image = ImageIO.read(new ByteArrayInputStream(drawing));
+            gc.drawImage(SwingFXUtils.toFXImage(image,null),0,0,drawCanvas.getWidth(),drawCanvas.getHeight());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void clearCanvas() {
+        gc = drawCanvas.getGraphicsContext2D();
+        gc.setFill(Color.WHITE);
+        gc.fillRect(0, 0, drawCanvas.getWidth(), drawCanvas.getHeight());
     }
 }

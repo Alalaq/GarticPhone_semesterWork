@@ -85,11 +85,12 @@ public class ResultController implements Initializable {
                 Label label = new Label("Author:" + drawing.getAuthorName());
 
                 BufferedImage image = ImageIO.read(new ByteArrayInputStream(drawing.getImage()));
-                image = resize(image, 150, 150);
+                image = resize(image, 300, 300);
                 ImageView imageView = new ImageView(SwingFXUtils.toFXImage(image, null));
 
                 Button button = new Button(drawing.getAuthorName());
                 button.setOnMouseClicked(event -> {
+                    System.out.println("voted");
                     connection.sendMessage(new Message(Constants.VOTED, PlayerParser.serializeObject(player)));
                 });
 
@@ -113,10 +114,6 @@ public class ResultController implements Initializable {
             e.printStackTrace();
         }
         alert.close();
-    }
-
-    public Connection getConnection() {
-        return connection;
     }
 
     public void setPlayer(Player player) {

@@ -27,25 +27,16 @@ public class GameMessageListenerService extends Service<Void> {
 
     private Socket socket;
     private MessageInputStream in;
-    private Stage stage;
-    private Canvas drawCanvas;
-    private GraphicsContext gc;
-    private Connection connection;
-    private Button button;
     private GameController gameController;
+    private Connection connection;
     private boolean flag = true;
-    private Player player;
 
-    public GameMessageListenerService(Connection connection, Stage stage, Canvas drawCanvas, Button button, GameController gameController, Player player) {
+
+    public GameMessageListenerService(Connection connection, GameController gameController) {
         this.socket = connection.getSocket();
         this.in = connection.getInputStream();
-        this.stage = stage;
-        this.drawCanvas = drawCanvas;
-        gc = drawCanvas.getGraphicsContext2D();
         this.connection = connection;
-        this.button = button;
         this.gameController = gameController;
-        this.player = player;
     }
 
     @Override
@@ -57,16 +48,12 @@ public class GameMessageListenerService extends Service<Void> {
                     Message message = in.readMessage();
                     switch (message.getType()) {
                         case Constants.NEXT_ROUND -> Platform.runLater(() -> {
-                            clearCanvas();
-                            button.setText("I'm ready!");
-                            gameController.setReady(false);
-                            new Alert(Alert.AlertType.INFORMATION, "Новый раунд, Ура !!!").show();
-                            drawNewImage(message.getBody());
+                            gameController.newRound(message.getBody());
                         });
                         case Constants.GAME_ENDED -> {
                             flag = false;
                             Platform.runLater(()->{
-                                stage.setScene(ScenesManager.getResultScene(connection,stage,player));
+                                gameController.gameEnded();
                             });
                         }
                     }
@@ -74,20 +61,5 @@ public class GameMessageListenerService extends Service<Void> {
                 return null;
             }
         };
-    }
-
-    private void drawNewImage(byte[] drawing) {
-        try {
-            BufferedImage image = ImageIO.read(new ByteArrayInputStream(drawing));
-            gc.drawImage(SwingFXUtils.toFXImage(image,null),0,0,drawCanvas.getWidth(),drawCanvas.getHeight());
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    private void clearCanvas() {
-        gc = drawCanvas.getGraphicsContext2D();
-        gc.setFill(Color.WHITE);
-        gc.fillRect(0, 0, drawCanvas.getWidth(), drawCanvas.getHeight());
     }
 }

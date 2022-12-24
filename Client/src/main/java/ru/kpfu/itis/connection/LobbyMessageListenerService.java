@@ -9,6 +9,7 @@ import javafx.scene.control.ListView;
 import javafx.stage.Stage;
 import ru.kpfu.itis.general.entities.Player;
 import ru.kpfu.itis.general.helpers.parsers.TextParser;
+import ru.kpfu.itis.gui.controllers.LobbyController;
 import ru.kpfu.itis.gui.helpers.ScenesManager;
 import ru.kpfu.itis.protocol.Constants;
 import ru.kpfu.itis.protocol.Message;
@@ -21,21 +22,13 @@ public class LobbyMessageListenerService extends Service<Void> {
 
     private Socket socket;
     private MessageInputStream in;
-    private Stage stage;
-    private ListView<String> userList;
-    private Button startGameButton;
-    private Connection connection;
-    private Player player;
+    private LobbyController lobbyController;
     private boolean flag = true;
 
-    public LobbyMessageListenerService(Stage stage, ListView<String> userList, Connection connection, Button startGameButton, Player player) {
+    public LobbyMessageListenerService(Connection connection, LobbyController lobbyController) {
         this.socket = connection.getSocket();
         this.in = connection.getInputStream();
-        this.stage = stage;
-        this.userList = userList;
-        this.connection = connection;
-        this.startGameButton = startGameButton;
-        this.player = player;
+        this.lobbyController = lobbyController;
     }
 
     @Override
@@ -49,21 +42,16 @@ public class LobbyMessageListenerService extends Service<Void> {
                         case Constants.USERS_CHANGED -> {
                             String[] users = new String(message.getBody(), StandardCharsets.UTF_8).replace("[", "").replace("]", "").split(",");
                             Platform.runLater(() -> {
-                                userList.getItems().clear();
-                                for (String user : users) {
-                                    userList.getItems().add(user.trim());
-                                }
+                                lobbyController.updateUsers(users);
                             });
                         }
                         case Constants.GIVE_ADMIN_PERMISSION -> Platform.runLater(() -> {
-                            player.setIsAdmin(true);
-                            startGameButton.setVisible(true);
+                            lobbyController.changeAdminPermission();
                         });
                         case Constants.GAME_STARTED -> {
                             flag = false;
                             Platform.runLater(() -> {
-                                stage.setScene(ScenesManager.getGameScene(connection, stage, player));
-                                this.cancel();
+                                lobbyController.startGame();
                             });
                         }
                         case Constants.GAME_START_DENIED -> Platform.runLater(() -> {

@@ -46,7 +46,6 @@ public class ResultMessageListenerService extends Service<Void> {
                         case Constants.SENDED_ONE_GAME_BRANCH ->{
                             Platform.runLater(()->{
                                 List<Drawing> drawings = DrawingParser.deserializeObjects(message.getBody());
-                                System.out.println(drawings);
                                 resultController.showOneGameBranch(drawings);
                             });
                         }
@@ -58,6 +57,10 @@ public class ResultMessageListenerService extends Service<Void> {
                         }
                         case Constants.GAME_ENDED -> {
                             System.out.println("END");
+                        }
+                        case Constants.BRANCH_VOTE_OVER -> {
+                            System.out.println("get there");
+                            connection.sendMessage(new Message(Constants.REQUIRE_NEW_BRANCH));
                         }
                     }
                 }

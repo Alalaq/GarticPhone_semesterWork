@@ -6,6 +6,7 @@ import javafx.concurrent.Task;
 import javafx.scene.control.Label;
 import javafx.stage.Stage;
 import ru.kpfu.itis.general.helpers.parsers.PlayerParser;
+import ru.kpfu.itis.gui.controllers.LogInController;
 import ru.kpfu.itis.gui.helpers.ScenesManager;
 import ru.kpfu.itis.protocol.Constants;
 import ru.kpfu.itis.protocol.Message;
@@ -18,18 +19,15 @@ public class LogInMessageListenerService extends Service<Void> {
 
     private Socket socket;
     private MessageInputStream in;
-    private Stage stage;
-    private Label errorLabel;
-    private boolean flag = true;
     private Connection connection;
+    private LogInController logInController;
+    private boolean flag = true;
 
-    public LogInMessageListenerService(Connection connection, Stage stage, Label label) {
+    public LogInMessageListenerService(Connection connection,LogInController logInController) {
         this.connection = connection;
         this.socket = connection.getSocket();
         this.in = connection.getInputStream();
-        this.stage = stage;
-        this.errorLabel = label;
-
+        this.logInController = logInController;
     }
 
     @Override
@@ -42,20 +40,13 @@ public class LogInMessageListenerService extends Service<Void> {
                     switch (message.getType()) {
                         case Constants.ALLOW_JOIN -> {
                             Platform.runLater(() -> {
-                                stage.setScene(ScenesManager.getLobbyScene(
-                                        PlayerParser.deserializeObject(message.getBody()),
-                                        connection,
-                                        stage
-                                ));
-                                stage.setTitle(PlayerParser.deserializeObject(message.getBody()).getNickname());
-                                stage.show();
+                                logInController.joinRoom(PlayerParser.deserializeObject(message.getBody()));
                             });
                             flag = false;
                         }
                         case Constants.DENY_JOIN -> {
                             Platform.runLater(() -> {
-                                errorLabel.setText(new String(message.getBody(), StandardCharsets.UTF_8));
-                                errorLabel.setVisible(true);
+                                logInController.joinDenied(new String(message.getBody(), StandardCharsets.UTF_8));
                             });
                         }
                     }

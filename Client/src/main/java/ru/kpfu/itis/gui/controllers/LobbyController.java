@@ -31,7 +31,7 @@ public class LobbyController {
 
     public void setConnection(Connection connection) {
         this.connection = connection;
-        new LobbyMessageListenerService(stage, usersList, connection, startGameButton, player).start();
+        new LobbyMessageListenerService(connection,this).start();
     }
 
     public void setStage(Stage stage) {
@@ -43,6 +43,19 @@ public class LobbyController {
         startGameButton.setVisible(player.getIsAdmin());
     }
 
+    public void updateUsers(String[] users){
+        usersList.getItems().clear();
+        for (String user : users) {
+            usersList.getItems().add(user.trim());
+        }
+    }
+    public void changeAdminPermission(){
+        player.setIsAdmin(true);
+        startGameButton.setVisible(true);
+    }
+    public void startGame(){
+        stage.setScene(ScenesManager.getGameScene(connection, stage, player));
+    }
     public void leaveRoom(ActionEvent actionEvent) {
         connection.sendMessage(new Message(Constants.EXIT_ROOM, PlayerParser.serializeObject(player))); //todo add user to message
         stage.setScene(ScenesManager.getLogInScene(stage));
