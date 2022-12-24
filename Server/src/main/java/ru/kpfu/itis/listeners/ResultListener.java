@@ -56,8 +56,10 @@ public class ResultListener extends AbstractServerEventListener {
                 }
                 drawings.add(new Drawing(drawingsToSend.get(code), players.get(Math.toIntExact(playersId)).getNickname(), players.get(Math.toIntExact(playersId)).getId()));
             }
-            branchSent = new Message(Constants.SENDED_ONE_GAME_BRANCH, DrawingParser.serializeObjects(drawings));
-            server.sendMulticastMessage(room, branchSent);
+            for (Drawing drawing : drawings) {
+                branchSent = new Message(Constants.SENDED_ONE_GAME_BRANCH, DrawingParser.serializeObject(drawing));
+                server.sendMulticastMessage(room, branchSent);
+            }
         } else {
             Message gameEnd = new Message(Constants.GAME_ENDED, PlayerParser.serializeObject(room.getWinner()));
             server.sendMulticastMessage(room, gameEnd);
