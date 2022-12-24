@@ -18,9 +18,10 @@ import java.util.Map;
 public class ResultListener extends AbstractServerEventListener {
     private static int branchesSendingIteration = -1;
 
+
     public ResultListener() {
         super(Constants.REQUIRE_NEW_BRANCH);
-        branchesSendingIteration += 1;
+        branchesSendingIteration++;
     }
 
     @Override

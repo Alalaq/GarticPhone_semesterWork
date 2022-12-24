@@ -32,7 +32,8 @@ public class Constants {
     public static final byte ILLEGAL_MESSAGE_TYPE = -11;  // неуспешное неначало игры
     public static final byte GAME_START_DENIED = -12;  // неуспешное неначало игры
     public static final byte SENDED_ONE_GAME_BRANCH = -13; // скинул одну ветку по наброску, в боди лист картинок
-    public static final byte USER_WINNER = -14; // после того как все проголосовали кидает всем в боди юзер который победил
+    public static final byte BRANCH_VOTE_OVER = -14; //
+    public static final byte USER_WINNER = -15; // после того как все проголосовали кидает всем в боди юзер который победил
 
 
 }
