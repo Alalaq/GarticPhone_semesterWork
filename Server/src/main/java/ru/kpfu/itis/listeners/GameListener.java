@@ -4,11 +4,13 @@ import com.google.gson.JsonSyntaxException;
 import ru.kpfu.itis.general.entities.Player;
 import ru.kpfu.itis.general.entities.Room;
 import ru.kpfu.itis.general.helpers.general.DrawingCode;
+import ru.kpfu.itis.general.helpers.parsers.TextParser;
 import ru.kpfu.itis.listeners.general.AbstractServerEventListener;
 import ru.kpfu.itis.protocol.Constants;
 import ru.kpfu.itis.protocol.Message;
 import ru.kpfu.itis.server.Connection;
 
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -100,6 +102,8 @@ public class GameListener extends AbstractServerEventListener {
         }
         if (currentRound == playersAmount - 1) {
             message = new Message(Constants.GAME_ENDED);
+            server.sendMulticastMessage(room, message);
+            message = new Message(Constants.USERS_CHANGED, (room.getPlayersNicknames().toString().getBytes(StandardCharsets.UTF_8)));
             server.sendMulticastMessage(room, message);
         } else {
             room.setCurrentRound(currentRound + 1);
