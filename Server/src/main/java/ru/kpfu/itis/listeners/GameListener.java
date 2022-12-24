@@ -87,7 +87,6 @@ public class GameListener extends AbstractServerEventListener {
                         server.sendMessage(connection, message);
                         //тут индекс - раунд, на котором получена картинка, айди - чел, который получил её
                         room.getDrawingsSentTo().get(idDrawingFrom).add(id);
-                        System.out.println(room.getDrawingsSentTo().get(idDrawingFrom));
 
                         if (currentRound == playersAmount - 1) {
                             drawings.remove(code);

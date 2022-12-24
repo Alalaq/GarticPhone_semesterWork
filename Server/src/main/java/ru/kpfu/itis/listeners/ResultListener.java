@@ -35,15 +35,15 @@ public class ResultListener extends AbstractServerEventListener {
             Message branchSent;
             Long playersId;
 
-            for (int i = 1; i < players.size(); i++) {
-                if (i == 1) {
+            for (int i = 0; i < players.size(); i++) {
+                if (i == 0) {
                     playersId = (long) branchesSendingIteration;
                 } else {
-                    playersId = room.getDrawingsSentTo().get((long) branchesSendingIteration).get(i - 2);
+                    playersId = room.getDrawingsSentTo().get((long) branchesSendingIteration).get(i - 1);
                 }
 
                 code = DrawingCode.builder()
-                        .round(i)
+                        .round(i + 1)
                         .playerId(playersId)
                         .isUsed(true)
                         .build();

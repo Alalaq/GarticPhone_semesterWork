@@ -19,6 +19,7 @@ public class VoteListener extends AbstractServerEventListener {
         if (!player.getStatus()) {
             player.setStatus(true);
         }
+
         player.setVote(PlayerParser.deserializeObject(message.getBody()));
     }
 }

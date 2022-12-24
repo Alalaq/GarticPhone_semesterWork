@@ -38,6 +38,7 @@ public class ResultMessageListenerService extends Service<Void> {
             protected Void call() throws Exception {
                 while (socket.isConnected()){
                     Message message = in.readMessage();
+                    System.out.println(message.getType());
                     switch (message.getType()){
                         case Constants.USERS_CHANGED -> {
                             String[] users = new String(message.getBody(), StandardCharsets.UTF_8).replace("[", "").replace("]", "").split(",");
@@ -47,6 +48,7 @@ public class ResultMessageListenerService extends Service<Void> {
                         }
                         case Constants.SENDED_ONE_GAME_BRANCH ->{
                             List<Drawing> drawings = DrawingParser.deserializeObjects(message.getBody());
+                            System.out.println(drawings);
                             Platform.runLater(()->{
                                 resultController.showOneGameBranch(drawings);
                             });
