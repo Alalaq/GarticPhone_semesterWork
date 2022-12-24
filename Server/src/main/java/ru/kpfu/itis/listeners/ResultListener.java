@@ -61,8 +61,9 @@ public class ResultListener extends AbstractServerEventListener {
                 server.sendMulticastMessage(room, branchSent);
             }
         } else {
-            Message gameEnd = new Message(Constants.GAME_ENDED, PlayerParser.serializeObject(room.getWinner()));
-            server.sendMulticastMessage(room, gameEnd);
+            Message sendWinner = new Message(Constants.USER_WINNER, PlayerParser.serializeObject(room.getWinner()));
+            server.sendMulticastMessage(room, sendWinner);
+            server.sendMulticastMessage(room, new Message(Constants.GAME_ENDED));
         }
     }
 }
