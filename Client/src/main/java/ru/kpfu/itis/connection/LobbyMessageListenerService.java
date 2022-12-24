@@ -40,7 +40,8 @@ public class LobbyMessageListenerService extends Service<Void> {
                     Message message = in.readMessage();
                     switch (message.getType()) {
                         case Constants.USERS_CHANGED -> {
-                            String[] users = new String(message.getBody(), StandardCharsets.UTF_8).replace("[", "").replace("]", "").split(",");
+                            String input = new String(message.getBody(),StandardCharsets.UTF_8);
+                            String[] users = input.substring(1,input.length()-1).split(",");
                             Platform.runLater(() -> {
                                 lobbyController.updateUsers(users);
                             });

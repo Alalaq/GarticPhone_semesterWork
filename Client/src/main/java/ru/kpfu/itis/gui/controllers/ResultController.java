@@ -61,7 +61,7 @@ public class ResultController implements Initializable {
         this.connection = connection;
         new ResultMessageListenerService(this, connection).start();
         try {
-            Thread.sleep(1000);
+            Thread.sleep(500);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
@@ -113,12 +113,6 @@ public class ResultController implements Initializable {
     public void showUserWinnerAlert(String name) {
         Alert alert = new Alert(Alert.AlertType.INFORMATION, "Congratulations to " + name);
         alert.show();
-        try {
-            Thread.sleep(1000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-        alert.close();
     }
 
     public void setPlayer(Player player) {

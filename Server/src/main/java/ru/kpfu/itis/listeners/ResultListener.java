@@ -29,7 +29,7 @@ public class ResultListener extends AbstractServerEventListener {
         Player player = connection.getPlayer();
         Room room = player.getRoom();
         List<Player> players = room.getPlayers();
-        if (branchesSendingIteration < players.size() - 1) {
+        if (branchesSendingIteration < players.size()) {
             DrawingCode code;
             Map<DrawingCode, byte[]> drawingsToSend;
             List<Drawing> drawings = new ArrayList<>();

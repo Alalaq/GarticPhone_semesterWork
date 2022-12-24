@@ -52,6 +52,7 @@ public class ResultMessageListenerService extends Service<Void> {
                             String name = PlayerParser.deserializeObject(message.getBody()).getNickname();
                             Platform.runLater(()->{
                                 resultController.showUserWinnerAlert(name);
+                                System.out.println("win");
                             });
                         }
                         case Constants.GAME_ENDED -> {

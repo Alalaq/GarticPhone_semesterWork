@@ -32,12 +32,12 @@ public class LogInController {
     public void logIn(ActionEvent actionEvent) throws IOException {
         String userName = nickname.getText();
 
-        if (!userName.isEmpty()) {
+        if (!userName.isEmpty() && !userName.contains(",") &&  !userName.contains(" ")) {
             setConnection(new Connection(InetAddress.getLocalHost(), Constants.PORT));
             connection.sendMessage(new Message(Constants.ENTRANCE, userName.getBytes(StandardCharsets.UTF_16)));
             connection.sendMessage(new Message(Constants.JOIN_ROOM, userName.getBytes(StandardCharsets.UTF_16)));
         } else {
-            errorLabel.setText("Name shouldn't be empty");
+            errorLabel.setText("Name shouldn't be empty, contain , and spaces");
             errorLabel.setVisible(true);
         }
     }
