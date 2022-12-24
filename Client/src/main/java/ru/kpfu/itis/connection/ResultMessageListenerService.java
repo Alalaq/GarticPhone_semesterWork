@@ -7,6 +7,7 @@ import javafx.scene.control.ListView;
 import javafx.scene.layout.VBox;
 import ru.kpfu.itis.general.entities.Drawing;
 import ru.kpfu.itis.general.helpers.parsers.DrawingParser;
+import ru.kpfu.itis.general.helpers.parsers.NewDrawingParser;
 import ru.kpfu.itis.general.helpers.parsers.PlayerParser;
 import ru.kpfu.itis.gui.controllers.ResultController;
 import ru.kpfu.itis.protocol.Constants;
@@ -47,7 +48,7 @@ public class ResultMessageListenerService extends Service<Void> {
                         }
                         case Constants.SENDED_ONE_GAME_BRANCH ->{
                             Platform.runLater(()->{
-                                List<Drawing> drawings = DrawingParser.deserializeObjects(message.getBody());
+                                List<Drawing> drawings = NewDrawingParser.deserializeObjects(message.getBody());
                                 System.out.println(drawings);
                                 resultController.showOneGameBranch(drawings);
                             });
