@@ -6,6 +6,7 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 import ru.kpfu.itis.ClientApp;
 import ru.kpfu.itis.connection.Connection;
+import ru.kpfu.itis.exceptions.SceneManagerException;
 import ru.kpfu.itis.general.entities.Player;
 import ru.kpfu.itis.gui.controllers.GameController;
 import ru.kpfu.itis.gui.controllers.LobbyController;
@@ -23,7 +24,7 @@ public class ScenesManager {
         try {
             root = loader.load();
         } catch (IOException e) {
-            e.printStackTrace();
+            throw new SceneManagerException("Error while loading",e);
         }
         LobbyController controller = loader.getController();
         controller.setStage(stage);
@@ -37,7 +38,7 @@ public class ScenesManager {
         try {
             root = loader.load();
         } catch (IOException e) {
-            e.printStackTrace();
+            throw new SceneManagerException("Error while loading",e);
         }
         LogInController controller = loader.getController();
         controller.setStage(stage);
@@ -49,7 +50,7 @@ public class ScenesManager {
         try {
             root = loader.load();
         } catch (IOException e) {
-            e.printStackTrace();
+            throw new SceneManagerException("Error while loading",e);
         }
         GameController controller = loader.getController();
         controller.setStage(stage);
@@ -63,10 +64,11 @@ public class ScenesManager {
         try {
             root = loader.load();
         } catch (IOException e) {
-            e.printStackTrace();
+            throw new SceneManagerException("Error while loading",e);
         }
         ResultController controller = loader.getController();
         controller.setPlayer(player);
+        controller.setStage(stage);
         controller.setConnection(connection);
         return new Scene(root);
     }

@@ -1,5 +1,7 @@
 package ru.kpfu.itis.connection;
 
+import ru.kpfu.itis.exceptions.ConnectionException;
+import ru.kpfu.itis.exceptions.MessageSendingException;
 import ru.kpfu.itis.protocol.Message;
 import ru.kpfu.itis.protocol.MessageInputStream;
 import ru.kpfu.itis.protocol.MessageOutputStream;
@@ -19,7 +21,8 @@ public class Connection {
             this.inputStream = new MessageInputStream(socket.getInputStream());
             this.outputStream = new MessageOutputStream(socket.getOutputStream());
         } catch (IOException e) {
-            e.printStackTrace(); //TODO
+            close();
+            throw new ConnectionException("Can't init connection",e);
         }
     }
 
@@ -28,7 +31,8 @@ public class Connection {
         try {
             outputStream.writeMessage(message);
         } catch (IOException e) {
-            throw new IllegalArgumentException("cant send message"); //TODO
+            close();
+            throw new MessageSendingException("Can't send message",e);
         }
     }
 
@@ -40,7 +44,7 @@ public class Connection {
         try {
             socket.close();
         } catch (IOException e) {
-            //TODO
+            throw new ConnectionException("Error closing socket",e);
         }
     }
 

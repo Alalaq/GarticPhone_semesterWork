@@ -11,8 +11,10 @@ import javafx.scene.control.ScrollPane;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.VBox;
+import javafx.stage.Stage;
 import ru.kpfu.itis.connection.Connection;
 import ru.kpfu.itis.connection.ResultMessageListenerService;
+import ru.kpfu.itis.exceptions.CanvasImageException;
 import ru.kpfu.itis.general.entities.Drawing;
 import ru.kpfu.itis.general.entities.Player;
 import ru.kpfu.itis.general.helpers.parsers.PlayerParser;
@@ -40,7 +42,7 @@ public class ResultController implements Initializable {
     private int userAmount;
     private List<Drawing> drawings = new ArrayList<>();
     private int count = 0;
-
+    private Stage stage;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -63,7 +65,7 @@ public class ResultController implements Initializable {
         try {
             Thread.sleep(500);
         } catch (InterruptedException e) {
-            e.printStackTrace();
+            throw new IllegalArgumentException(e);
         }
         if (player.getIsAdmin()) {
             connection.sendMessage(new Message(Constants.REQUIRE_NEW_BRANCH));
@@ -95,7 +97,6 @@ public class ResultController implements Initializable {
 
                 Button button = new Button(drawing.getAuthorName());
                 button.setOnMouseClicked(event -> {
-                    System.out.println("voted");
                     connection.sendMessage(new Message(Constants.VOTED, PlayerParser.serializeObject(player)));
                 });
 
@@ -104,14 +105,16 @@ public class ResultController implements Initializable {
                 flowPane.getChildren().add(button);
 
             } catch (IOException e) {
-                e.printStackTrace();
+                throw new CanvasImageException("Error drawing in canvas",e);
             }
         }
+        vbox.getChildren().add(new Label("Vote for the best draw"));
         vbox.getChildren().add(flowPane);
     }
 
     public void showUserWinnerAlert(String name) {
         Alert alert = new Alert(Alert.AlertType.INFORMATION, "Congratulations to " + name);
+        alert.setOnCloseRequest((event -> stage.close()));
         alert.show();
     }
 
@@ -129,5 +132,8 @@ public class ResultController implements Initializable {
             }
             showOneGameBranch(newDrawings);
         }
+    }
+    public void setStage(Stage stage){
+        this.stage = stage;
     }
 }

@@ -19,7 +19,6 @@ public class VoteListener extends AbstractServerEventListener {
         Player player = connection.getPlayer();
         Room room = player.getRoom();
         if (voteCount < room.getPlayers().size()) {
-            System.out.println(voteCount);
             if (!player.getStatus()) {
                 player.setStatus(true);
                 voteCount++;

@@ -17,6 +17,7 @@ import javafx.stage.Stage;
 import ru.kpfu.itis.connection.Connection;
 import ru.kpfu.itis.connection.GameMessageListenerService;
 import ru.kpfu.itis.general.entities.Player;
+import ru.kpfu.itis.exceptions.CanvasImageException;
 import ru.kpfu.itis.gui.helpers.ScenesManager;
 import ru.kpfu.itis.protocol.Constants;
 import ru.kpfu.itis.protocol.Message;
@@ -26,7 +27,6 @@ import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.util.Arrays;
 
 public class GameController {
     private final Color[] colors = {Color.RED, Color.DARKORANGE, Color.YELLOW, Color.GREEN, Color.AQUA, Color.BLUE, Color.BLUEVIOLET, Color.BLACK, Color.WHITE, Color.BROWN};
@@ -107,10 +107,6 @@ public class GameController {
         readyButton.setText(ready ? "I'm not ready :(" : "I'm ready!");
         connection.sendMessage(new Message(Constants.READINESS, getDrawingFromCanvas()));
     }
-    public void setReady(boolean ready){
-        this.ready = ready;
-    }
-
     private byte[] getDrawingFromCanvas() {
         try {
             WritableImage image = new WritableImage((int) drawCanvas.getWidth(), (int) drawCanvas.getHeight());
@@ -120,7 +116,7 @@ public class GameController {
             ImageIO.write(bufferedImage, "png", out);
             return out.toByteArray();
         } catch (IOException e) {
-            throw new IllegalArgumentException(e);
+            throw new CanvasImageException("Can't get canvas image",e);
         }
     }
 
@@ -144,7 +140,7 @@ public class GameController {
             BufferedImage image = ImageIO.read(new ByteArrayInputStream(drawing));
             gc.drawImage(SwingFXUtils.toFXImage(image,null),0,0,drawCanvas.getWidth(),drawCanvas.getHeight());
         } catch (IOException e) {
-            e.printStackTrace();
+            throw new CanvasImageException("Error drawing canvas image",e);
         }
     }
 
