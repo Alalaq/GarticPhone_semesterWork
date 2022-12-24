@@ -113,9 +113,6 @@ public class ResultController implements Initializable {
             e.printStackTrace();
         }
         alert.close();
-        if (player.getIsAdmin()) {
-            connection.sendMessage(new Message(Constants.REQUIRE_NEW_BRANCH));
-        }
     }
 
     public Connection getConnection() {
