@@ -12,10 +12,11 @@ import lombok.NoArgsConstructor;
 public class Player {
     protected Long id;
     protected String nickname;
-    protected Boolean status; //whether this player already made a move or not
-    protected Boolean readiness; //whether this player ready or not (before game started)
+    protected Boolean status; //whether this player already voted or not
+    protected Boolean readiness; //whether this player ready or not
     protected Boolean isAdmin;
     protected Drawing image; //the image that came to the player (or that player has drawn???)
+    protected Player vote; // id of person who voted for this player
     protected transient Room room;
 
     //todo: handle case with null room

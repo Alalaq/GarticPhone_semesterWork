@@ -81,4 +81,24 @@ public class Room {
         }
         return stringPlayers;
     }
+    
+    public Player getWinner(){
+        Map<Player, Integer> winnerCount = new HashMap<>();
+        int count = 0;
+        Player winner = new Player();
+        for (Player player : getPlayers()){
+            Player voteFor = player.getVote();
+            if (winnerCount.containsKey(voteFor)){
+                winnerCount.replace(voteFor, winnerCount.get(voteFor) + 1);
+            }
+            else {
+                winnerCount.put(voteFor, 1);
+            }
+            if (winnerCount.get(voteFor) > count){
+                count = winnerCount.get(voteFor);
+                winner = voteFor;
+            }
+        }
+        return winner;
+    }
 }

@@ -40,6 +40,7 @@ public class ResultController implements Initializable {
         vbox.prefWidthProperty().bind(scrollPane.widthProperty());
         vbox.prefHeightProperty().bind(scrollPane.heightProperty());
     }
+
     public static BufferedImage resize(BufferedImage img, int newW, int newH) {
         Image tmp = img.getScaledInstance(newW, newH, Image.SCALE_SMOOTH);
         BufferedImage dimg = new BufferedImage(newW, newH, BufferedImage.TYPE_INT_ARGB);
@@ -51,19 +52,19 @@ public class ResultController implements Initializable {
 
     public void setConnection(Connection connection) {
         this.connection = connection;
-        new ResultMessageListenerService(this,connection).start();
+        new ResultMessageListenerService(this, connection).start();
         try {
             Thread.sleep(1000);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
         connection.sendMessage(new Message(Constants.REQUIRE_NEW_BRANCH));
-        System.out.println("sended");
+        System.out.println("sent");
     }
 
     public void updateUsers(String[] users) {
         usersList.getItems().clear();
-        for (String user: users){
+        for (String user : users) {
             usersList.getItems().add(user.trim());
         }
     }
@@ -75,17 +76,17 @@ public class ResultController implements Initializable {
         flowPane.setPrefHeight(200);
         flowPane.setPrefWidth(200);
 
-        for (Drawing drawing : images){
+        for (Drawing drawing : images) {
             try {
                 Label label = new Label("Author:" + drawing.getAuthor());
 
                 BufferedImage image = ImageIO.read(new ByteArrayInputStream(drawing.getImage()));
-                image = resize(image,150,150);
-                ImageView imageView = new ImageView(SwingFXUtils.toFXImage(image,null));
+                image = resize(image, 150, 150);
+                ImageView imageView = new ImageView(SwingFXUtils.toFXImage(image, null));
 
                 Button button = new Button(drawing.getAuthor());
-                button.setOnMouseClicked(event ->{
-                    connection.sendMessage(new Message(Constants.VOTED,drawing.getAuthor().getBytes(StandardCharsets.UTF_8)));
+                button.setOnMouseClicked(event -> {
+                    connection.sendMessage(new Message(Constants.VOTED, drawing.getAuthor().getBytes(StandardCharsets.UTF_8)));
                 });
 
                 vbox.getChildren().add(label);
@@ -100,7 +101,7 @@ public class ResultController implements Initializable {
     }
 
     public void showUserWinnerAlert(String name) {
-        Alert alert = new Alert(Alert.AlertType.INFORMATION,"Congratulations to " + name);
+        Alert alert = new Alert(Alert.AlertType.INFORMATION, "Congratulations to " + name);
         alert.show();
         try {
             Thread.sleep(1000);
