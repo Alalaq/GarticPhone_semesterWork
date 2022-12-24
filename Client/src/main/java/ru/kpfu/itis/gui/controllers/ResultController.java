@@ -26,6 +26,7 @@ import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 
@@ -36,6 +37,9 @@ public class ResultController implements Initializable {
     public VBox vbox;
     public Connection connection;
     private Player player;
+    private int userAmount;
+    private List<Drawing> drawings = new ArrayList<>();
+    private int count = 0;
 
 
     @Override
@@ -67,6 +71,7 @@ public class ResultController implements Initializable {
     }
 
     public void updateUsers(String[] users) {
+        userAmount = users.length;
         usersList.getItems().clear();
         for (String user : users) {
             usersList.getItems().add(user.trim());
@@ -118,5 +123,17 @@ public class ResultController implements Initializable {
 
     public void setPlayer(Player player) {
         this.player = player;
+    }
+
+    public void dataCome(Drawing drawing) {
+        drawings.add(drawing);
+        count++;
+        if (count % userAmount == 0){
+            List<Drawing> newDrawings = new ArrayList<>();
+            for (int i = count - userAmount; i < count; i++){
+                newDrawings.add(drawings.get(i));
+            }
+            showOneGameBranch(newDrawings);
+        }
     }
 }
