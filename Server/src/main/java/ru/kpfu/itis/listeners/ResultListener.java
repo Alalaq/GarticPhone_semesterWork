@@ -4,14 +4,12 @@ import ru.kpfu.itis.general.entities.Drawing;
 import ru.kpfu.itis.general.entities.Player;
 import ru.kpfu.itis.general.entities.Room;
 import ru.kpfu.itis.general.helpers.general.DrawingCode;
+import ru.kpfu.itis.general.helpers.parsers.DrawingParser;
 import ru.kpfu.itis.listeners.general.AbstractServerEventListener;
 import ru.kpfu.itis.protocol.Constants;
 import ru.kpfu.itis.protocol.Message;
 import ru.kpfu.itis.server.Connection;
 
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -49,19 +47,13 @@ public class ResultListener extends AbstractServerEventListener {
                     .build();
 
             drawingsToSend = room.getDrawings();
+
+            if (!drawingsToSend.containsKey(code)){
+                code.setUsed(false);
+            }
             drawings.add(new Drawing(drawingsToSend.get(code), players.get(branchesSendingIteration).getNickname()));
         }
-        try {
-            ByteArrayOutputStream baos = new ByteArrayOutputStream();
-            ObjectOutputStream out = new ObjectOutputStream(baos);
-
-            out.writeObject(drawings);
-
-            branchSent = new Message(Constants.SENDED_ONE_GAME_BRANCH, baos.toByteArray());
-            server.sendMessage(connection, branchSent);
-        } catch (IOException ignored) {
-        }
-
-
+        branchSent = new Message(Constants.SENDED_ONE_GAME_BRANCH, DrawingParser.serializeObjects(drawings));
+        server.sendMessage(connection, branchSent);
     }
 }

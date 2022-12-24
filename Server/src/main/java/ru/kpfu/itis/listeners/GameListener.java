@@ -4,7 +4,6 @@ import com.google.gson.JsonSyntaxException;
 import ru.kpfu.itis.general.entities.Player;
 import ru.kpfu.itis.general.entities.Room;
 import ru.kpfu.itis.general.helpers.general.DrawingCode;
-import ru.kpfu.itis.general.helpers.parsers.TextParser;
 import ru.kpfu.itis.listeners.general.AbstractServerEventListener;
 import ru.kpfu.itis.protocol.Constants;
 import ru.kpfu.itis.protocol.Message;

@@ -8,7 +8,6 @@ import ru.kpfu.itis.listeners.general.AbstractServerEventListener;
 import ru.kpfu.itis.protocol.Constants;
 import ru.kpfu.itis.protocol.Message;
 import ru.kpfu.itis.server.Connection;
-import ru.kpfu.itis.server.Server;
 
 import java.nio.charset.StandardCharsets;
 
@@ -39,6 +38,8 @@ public class JoinRoomListener extends AbstractServerEventListener {
             player.setIsAdmin(joinedRoom.getPlayers().size() == 1);
 
             player.setReadiness(false);
+
+            player.setId((long) (joinedRoom.getPlayers().size() - 1));
 
             Message allowJoin = new Message(Constants.ALLOW_JOIN, PlayerParser.serializeObject(player));
             Message usersChanged = new Message(Constants.USERS_CHANGED, joinedRoom.getPlayersNicknames().toString().getBytes(StandardCharsets.UTF_8));

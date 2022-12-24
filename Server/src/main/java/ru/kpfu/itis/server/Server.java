@@ -1,7 +1,6 @@
 package ru.kpfu.itis.server;
 
 import lombok.Data;
-import ru.kpfu.itis.exceptions.ServerAlreadyStartException;
 import ru.kpfu.itis.general.entities.Player;
 import ru.kpfu.itis.general.entities.Room;
 import ru.kpfu.itis.general.helpers.parsers.PlayerParser;
@@ -68,27 +67,6 @@ public class Server {
 
             throw new ServerException("Problem with handling connection.", ex);
         }
-    }
-
-
-    public void registerListener(ServerEventListener listener) {
-        if (started) {
-            throw new ServerAlreadyStartException("Server has been started already. Can't register listener.");
-        }
-
-        listener.init(this);
-        this.listeners.add(listener);
-    }
-
-    public void registerListener(List<ServerEventListener> listeners) {
-        if (started) {
-            throw new ServerAlreadyStartException("Server has been started already. Can't register listener.");
-        }
-
-        for (ServerEventListener listener : listeners) {
-            listener.init(this);
-        }
-        this.listeners.addAll(listeners);
     }
 
 

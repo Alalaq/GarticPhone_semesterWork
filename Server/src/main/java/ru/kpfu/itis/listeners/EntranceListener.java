@@ -19,7 +19,6 @@ public class EntranceListener extends AbstractServerEventListener {
         Message newMessage;
 
         Player player = Player.builder()
-                .id(connection.getId())
                 .status(false)
                 .nickname(name)
                 .readiness(false)
