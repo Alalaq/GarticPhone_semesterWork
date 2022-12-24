@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0"
+            prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.2" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="ru.kpfu.itis.gui.controllers.ResultController">
+    <left>
+        <AnchorPane prefHeight="200.0" prefWidth="200.0" style="-fx-border-color: black" BorderPane.alignment="CENTER">
+            <Button fx:id="startGameButton" mnemonicParsing="false" text="Start" visible="false"
+                    AnchorPane.rightAnchor="4" AnchorPane.topAnchor="4"/>
+            <Label text="Users List" AnchorPane.leftAnchor="4" AnchorPane.topAnchor="10"/>
+            <ListView fx:id="usersList" AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0"
+                      AnchorPane.topAnchor="40"/>
+        </AnchorPane>
+    </left>
+    <center>
+        <ScrollPane fx:id="scrollPane" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+            <VBox fx:id="vbox" alignment="TOP_CENTER" maxHeight="1.7976931348623157E308"
+                  maxWidth="1.7976931348623157E308">
+
+            </VBox>
+        </ScrollPane>
+    </center>
+</BorderPane>

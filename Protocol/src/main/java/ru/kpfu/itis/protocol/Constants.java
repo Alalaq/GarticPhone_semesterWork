@@ -15,7 +15,8 @@ public class Constants {
     public static final byte EXIT_ROOM = 2; // выход юзера, очищает его из списков и кидает список всем оставшимся, вместе передаётся Player, если вышедший юзер админ(по дефолту первый зашедший) то сервер даёт админку первому в новом списке и кидает ему месседж про админа
     public static final byte START_GAME = 3; // админ нажал старт (мб можно тут передавать список имен пользователей чтобы сервер их сравнил и выдал ошибку ес че но хз зачем тут у нач всё быстро происходит)
     public static final byte READINESS = 4; // уже после начала игры, месседж о том что юзер готов, если он был готов до этого, то статус меняется, передаётся картинка
-    public static final byte START_SENDING_MESSAGE = 5; // начало передачи длинного месседжа разделенного на несколько месседжей, количестов месседжей в боди
+    public static final byte VOTED = 5; // кинул голос за рисунок, в боди ник за кого проголосовал
+    public static final byte REQUIRE_NEW_BRANCH = 6; // показал одну ветку, требую сервер кинуть мне следующую
 
     //SERVER
     public static final byte ALLOW_JOIN = -1; // позволяет войти если игроков вместе с новым юзером будет 8 или меньше, вместе идет экземпляр вошедшего Playera
@@ -30,9 +31,8 @@ public class Constants {
     public static final byte WRONG_PROTOCOL_VERSION = -10;  // неуспешное неначало игры
     public static final byte ILLEGAL_MESSAGE_TYPE = -11;  // неуспешное неначало игры
     public static final byte GAME_START_DENIED = -12;  // неуспешное неначало игры
-
-
-
+    public static final byte SENDED_ONE_GAME_BRANCH = -13; // скинул одну ветку по наброску, в боди лист картинок
+    public static final byte USER_WINNER = -14; // после того как все проголосовали кидает всем в боди юзер который победил
 
 
 }

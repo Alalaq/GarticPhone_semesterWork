@@ -10,6 +10,7 @@ import ru.kpfu.itis.general.entities.Player;
 import ru.kpfu.itis.gui.controllers.GameController;
 import ru.kpfu.itis.gui.controllers.LobbyController;
 import ru.kpfu.itis.gui.controllers.LogInController;
+import ru.kpfu.itis.gui.controllers.ResultController;
 
 import java.io.IOException;
 
@@ -53,6 +54,17 @@ public class ScenesManager {
         GameController controller = loader.getController();
         controller.setStage(stage);
         controller.setPlayer(player);
+        controller.setConnection(connection);
+        return new Scene(root);
+    }
+    public static Scene getResultScene(Connection connection, Stage stage) {
+        loader = new FXMLLoader(ClientApp.class.getResource("result.fxml"));
+        try {
+            root = loader.load();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        ResultController controller = loader.getController();
         controller.setConnection(connection);
         return new Scene(root);
     }

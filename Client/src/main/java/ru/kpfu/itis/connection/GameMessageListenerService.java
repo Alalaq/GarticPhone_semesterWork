@@ -11,6 +11,7 @@ import javafx.scene.control.Button;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import ru.kpfu.itis.gui.controllers.GameController;
+import ru.kpfu.itis.gui.helpers.ScenesManager;
 import ru.kpfu.itis.protocol.Constants;
 import ru.kpfu.itis.protocol.Message;
 import ru.kpfu.itis.protocol.MessageInputStream;
@@ -58,7 +59,10 @@ public class GameMessageListenerService extends Service<Void> {
                             drawNewImage(message.getBody());
                         });
                         case Constants.GAME_ENDED -> {
-                            System.out.println("END"); //TODO : show end
+                            System.out.println("end");
+                            Platform.runLater(()->{
+                                stage.setScene(ScenesManager.getResultScene(connection,stage));
+                            });
                         }
                     }
                 }
